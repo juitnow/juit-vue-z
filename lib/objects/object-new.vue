@@ -52,8 +52,8 @@ import { icons } from '../assets/icons'
 import { translations } from '../assets/translations'
 import JPageHeader from './object-header.vue'
 
-import type { ZForm } from '@juitnow/vue-z'
 import type { PropType, VNode } from 'vue'
+import type { ZForm } from '../index'
 
 /* ===== NAME, PROPS, SLOTS & EMITS ========================================= */
 
