@@ -1,5 +1,5 @@
-import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css'
-import 'quasar/src/css/index.sass'
+// TODO import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css'
+// TODO import 'quasar/src/css/index.sass'
 
 /* Buttons */
 import ZBtnDropdown from './buttons/btn-dropdown.vue'
@@ -44,7 +44,7 @@ import ZTag from './tag.vue'
 /* Local styles */
 import './controls/zstyle.pcss'
 import './inputs/zstyle.pcss'
-import './zstyle.scss'
+// TODO import './zstyle.scss'
 
 import type { App } from 'vue'
 
