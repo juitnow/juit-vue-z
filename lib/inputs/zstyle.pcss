@@ -1,0 +1,97 @@
+.z-input {
+
+  /* ===== QUASAR FIELD STYLING ============================================= */
+
+  .q-field {
+
+    /* ----- Basic L&F ------------------------------------------------------ */
+
+    /* Slighly bolder font */
+    .q-field__native,
+    .q-field__input {
+      font-weight: 500;
+    }
+
+    /* Always with a white background, applied here, shaded in ::before */
+    .q-field__control {
+      background-color: var(--q-page);
+    }
+
+    /* Basic (without our styling)... "Inactive" defaults to this */
+    .q-field__control::before {
+      transition-property: border-color, background-color;
+      border: 1px solid var(--q-border-color); /* also resets dashed border */
+    }
+
+    /* Default icon in "inactive" state */
+    &.z-state-inactive .q-field__native,
+    &.z-state-inactive .q-field__input {
+      cursor: default;
+    }
+
+    /* ----- States --------------------------------------------------------- */
+
+    /* Editable (unhovered)  */
+    &.z-state-editable .q-field__control::before {
+      border: 1px solid var(--q-border-active-color);
+    }
+
+    /* Editable (hovered): "currentColor" is primary, and used when focused */
+    &.z-state-editable .q-field__control:hover::before {
+      border: 1px solid currentColor;
+      background-color: var(--q-hue);
+    }
+
+    /* Editable (focused): thick border applied elsewhere, just add a hue */
+    &.z-state-editable.q-field--focused .q-field__control::before {
+      background-color: var(--q-hue-primary);
+    }
+
+    /* Disabled: gray it all out */
+    &.z-state-disabled .q-field__control::before {
+      background-color: var(--q-shade);
+    }
+
+    /* ----- Placeholder ---------------------------------------------------- */
+
+    .q-placeholder::placeholder {
+      opacity: 0.5;
+    }
+  }
+
+  /* ===== INPUT FIELD ICONS ================================================ */
+
+  /* Style for a link wrapping an icon */
+  .z-icon-link {
+    margin-left: 0px; /* margins are collapsable, so the -1 below needs reset  */
+    text-decoration: none; /* no underline */
+    display: flex; /* make it flex! */
+  }
+
+  .z-icon {
+    font-size: 18px; /* same as Quasar's "xs" */
+    margin-left: 2px; /* a bit of space between the icons */
+    opacity: 0.5; /* a bit of transparency */
+
+    &.z-icon-error {
+      font-variation-settings: 'FILL' 1; /* solid fill */
+      color: var(--q-negative); /* negative color */
+      opacity: .75; /* a bit less transparent */
+    }
+
+    &.z-icon-clickable {
+      cursor: pointer;
+      color: var(--q-primary);
+
+      &:hover {
+        z-index: 1; /* Remains hovered over other overlapping clickable icons */
+        background-color: var(--q-shade-primary);
+        border: 1px solid var(--q-border-color);
+        border-radius: calc(var(--q-border-radius) * 0.75);
+        margin-right: -3px;
+        margin-left: -1px;
+        padding: 2px;
+      }
+    }
+  }
+}
