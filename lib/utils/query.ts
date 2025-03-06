@@ -92,8 +92,8 @@ function getDefaultValueFor<T extends ZQueryReactiveValue>(
  * Create a reactive object following the given definition and _optionally_ bind
  * it to the router's query string.
  *
- * @param definition The definition for the reactive object.
- * @param useRoutes When true, bind the object to the router's query string.
+ * @param definition - The definition for the reactive object.
+ * @param useRoutes - When true, bind the object to the router's query string.
  */
 export function createBoundObject<T extends ZQueryReactiveDefs>(
     definition: T,
