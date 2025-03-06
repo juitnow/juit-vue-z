@@ -1,4 +1,5 @@
 *.tgz
+build/
 coverage/
 demo/
 dist/
