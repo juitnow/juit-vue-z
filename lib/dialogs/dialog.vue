@@ -45,6 +45,8 @@ import {
 
 import { icons } from '../assets/icons'
 
+import type { VNode } from 'vue'
+
 const { dialogRef, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 
 defineOptions({ name: 'ZDialog' })
@@ -90,6 +92,10 @@ const emit = defineEmits<{
   (event: 'ok', payload?: any): void
   (event: 'show'): void
   (event: 'hide'): void
+}>()
+
+defineSlots<{
+  default: () => VNode[]
 }>()
 
 defineExpose({
