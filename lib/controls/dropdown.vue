@@ -27,6 +27,8 @@ import ZBtnDropdown from '../buttons/btn-dropdown.vue'
 import ZFormHelper from '../forms/form-helper.vue'
 import { componentFormProps } from '../utils/form'
 
+import type { VNode } from 'vue'
+
 defineOptions({ name: 'ZControlDropdown' })
 
 defineProps({
@@ -49,4 +51,8 @@ defineProps({
   },
   ...componentFormProps,
 })
+
+defineSlots<{
+  default: () => VNode[]
+}>()
 </script>
