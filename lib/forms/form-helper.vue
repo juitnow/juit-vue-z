@@ -14,7 +14,9 @@ defineOptions({ name: 'ZFormHelper' })
 
 const _props = defineProps(componentFormProps)
 const _formProps = mergeFormProps(_props)
-defineSlots<{ default: (formProps: Readonly<ZFormProps>) => VNode[] }>()
+defineSlots<{
+  default: (formProps: Readonly<ZFormProps>) => VNode[]
+}>()
 
 defineExpose({
   isEditable: computed(() => _formProps.editable),
