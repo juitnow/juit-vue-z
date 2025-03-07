@@ -43,8 +43,6 @@ import type { QBtnDropdownProps, QBtnDropdownSlots } from 'quasar'
 defineOptions({ name: 'ZBtnDropdown' })
 
 const _ref = ref<QBtnDropdown>()
-
-// eslint-disable-next-line vue/prop-name-casing
 const _props = defineProps<QBtnDropdownProps & { tooltip?: string }>()
 const _slots = defineSlots<Partial<QBtnDropdownSlots>>()
 
