@@ -16,7 +16,13 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: [ 'vue', 'quasar', 'vue-router', '@juit/vue-i18n', '@quasar/extras' ],
+      external: [
+        '@juit/vue-i18n',
+        '@quasar/extras',
+        'quasar',
+        'vue',
+        'vue-router',
+      ],
     },
   },
 })
