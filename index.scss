@@ -65,3 +65,5 @@ $dark-text: #fff !default;
 .bg-shade-warning  { background-color: var(--q-shade-warning) !important }
 .bg-tint           { background-color: var(--q-tint) !important }
 .bg-tint-primary   { background-color: var(--q-tint-primary) !important }
+
+@import url('./dist/index.css');
