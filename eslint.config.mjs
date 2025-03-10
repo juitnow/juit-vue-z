@@ -70,6 +70,8 @@ export default [
       } ],
       // No unused variables, ever
       'vue/no-unused-vars': 'error',
+      // This is a library, ensure we *always* import components
+      'vue/no-undef-components': 'error',
     },
   },
 
