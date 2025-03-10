@@ -83,7 +83,7 @@ export default plugjs({
   async lint(): Promise<void> {
     banner('Linting source code')
 
-    find('**/*.([cm])?ts', '**/*.([cm])?js', '**/*.vue', {
+    await find('**/*.([cm])?ts', '**/*.([cm])?js', '**/*.vue', {
       directory: resolve('lib'),
     }).eslint()
   },
