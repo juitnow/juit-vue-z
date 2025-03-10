@@ -62,10 +62,10 @@ export type ZBtnGroup = InstanceType<typeof ZBtnGroup>
 
 export type ZControlDeleted = InstanceType<typeof ZControlDeleted>
 export type ZControlDropdown = InstanceType<typeof ZControlDropdown>
-export type ZControlReload = InstanceType<typeof ZControlDeleted>
-export type ZControlSearch = InstanceType<typeof ZControlDeleted>
-export type ZControlSwitch = InstanceType<typeof ZControlDeleted>
-export type ZControlToggle = InstanceType<typeof ZControlDeleted>
+export type ZControlReload = InstanceType<typeof ZControlReload>
+export type ZControlSearch = InstanceType<typeof ZControlSearch>
+export type ZControlSwitch = InstanceType<typeof ZControlSwitch>
+export type ZControlToggle = InstanceType<typeof ZControlToggle>
 
 /* ===== DIALOGS ============================================================ */
 
@@ -103,104 +103,8 @@ export type ZObjectNew = InstanceType<typeof ZObjectNew>
 
 /* ===== OTHERS ============================================================= */
 
+export type ZTable = InstanceType<typeof ZTable>
 export type ZTag = InstanceType<typeof ZTag>
-
-/* ========================================================================== *
- * INSTRUMENT VUE TYPES                                                       *
- * ========================================================================== */
-
-declare module 'vue' {
-  export interface GlobalComponents {
-
-    /* ===== BUTTONS ======================================================== */
-
-    /** Button */
-    ZBtn: typeof ZBtn,
-    /** Button Dropdown */
-    ZBtnDropdown: typeof ZBtnDropdown,
-    /** Button Group */
-    ZBtnGroup: typeof ZBtnGroup,
-
-    /* ===== CONTROLS ======================================================= */
-
-    /** Show Deleted Control */
-    ZControlDeleted: typeof ZControlDeleted,
-    /** Dropdown */
-    ZControlDropdown: typeof ZControlDropdown,
-    /** Reload Control */
-    ZControlReload: typeof ZControlReload,
-    /** Search Control */
-    ZControlSearch: typeof ZControlSearch,
-    /** Switch Control */
-    ZControlSwitch: typeof ZControlSwitch,
-    /** Toggle Control */
-    ZControlToggle: typeof ZControlToggle,
-
-    /* ===== DIALOGS ======================================================== */
-
-    /** Confirm Dialog */
-    ZConfirmDialog: typeof ZConfirmDialog,
-    /** Dialog */
-    ZDialog: typeof ZDialog,
-    /** Progress Dialog */
-    ZProgressDialog: typeof ZProgressDialog,
-
-    /* ===== FORMS ========================================================== */
-
-    /** Form */
-    ZForm: typeof ZForm,
-    /** Form Helper */
-    ZFormHelper: typeof ZFormHelper,
-    /** Input group */
-    ZInputGroup: typeof ZInputGroup,
-
-    /* ===== INPUTS ========================================================= */
-
-    /** Address input */
-    ZAddress: typeof ZAddress,
-    /** Autocomplete input */
-    ZAutocomplete: typeof ZAutocomplete,
-    /** Date input */
-    ZDate: typeof ZDate,
-    /** EAN13 input */
-    ZEan13: typeof ZEan13,
-    /** Label */
-    ZLabel: typeof ZLabel,
-    /** Nullable Number input */
-    ZNullableNumber: typeof ZNullableNumber,
-    /** Number input */
-    ZNumber: typeof ZNumber,
-    /** Password input */
-    ZPassword: typeof ZPassword,
-    /** Picker input */
-    ZPicker: typeof ZPicker,
-    /** Select input */
-    ZSelect: typeof ZSelect,
-    /** String input */
-    ZString: typeof ZString,
-    /** Tags input */
-    ZTags: typeof ZTags,
-    /** A simple text input (normally only used internally) */
-    ZText: typeof ZText,
-
-    /* ===== OBJECTS ======================================================== */
-
-    /** Object header */
-    ZHeader: typeof ZHeader,
-    /** Object viewer/editor */
-    ZObject: typeof ZObject,
-    /** Object creator */
-    ZObjectNew: typeof ZObjectNew,
-
-    /* ===== OTHERS ========================================================= */
-
-    /** Tag */
-    ZTable: typeof ZTable,
-    /** Tag */
-    ZTag: typeof ZTag,
-
-  }
-}
 
 /* ========================================================================== *
  * PLUGIN                                                                     *
