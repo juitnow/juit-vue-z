@@ -153,12 +153,16 @@ defineExpose({
 type AddressToken = { value: string, type: 'match' | 'miss' | 'secondary' }
 type AddressPrediction = ZOption & { tokens: AddressToken[] }
 
-if (! google.maps.places.AutocompleteService) throw new Error('Google Maps AutocompleteService not available')
-if (! google.maps.places.Place) throw new Error('Google Maps Place not available')
-
-const _googleService = new google.maps.places.AutocompleteService()
+let _googleService: google.maps.places.AutocompleteService | undefined = undefined
 
 async function _predictAddress(value: string): Promise<{ value: string, label: string }[]> {
+  if (! _googleService) {
+    if (! globalThis.google?.maps?.places?.AutocompleteService) {
+      throw new Error('Google Maps AutocompleteService not available')
+    }
+    _googleService = new google.maps.places.AutocompleteService()
+  }
+
   if (! value) return [] // should never happen, but still
 
   // Prepare our request
@@ -206,6 +210,10 @@ async function _predictAddress(value: string): Promise<{ value: string, label: s
 }
 
 async function _fillAddress(option: ZOption): Promise<void> {
+  if (! globalThis.google?.maps?.places?.Place) {
+    throw new Error('Google Maps Place not available')
+  }
+
   const place = new google.maps.places.Place({ id: option.value })
   await place.fetchFields({ fields: [ 'addressComponents' ] })
 
