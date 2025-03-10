@@ -1,5 +1,5 @@
-// TODO import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css'
-// TODO import 'quasar/src/css/index.sass'
+import { Dialog, Quasar } from 'quasar'
+import iconSet from 'quasar/icon-set/material-symbols-rounded'
 
 /* Buttons */
 import ZBtnDropdown from './buttons/btn-dropdown.vue'
@@ -44,8 +44,8 @@ import ZTag from './tag.vue'
 /* Local styles */
 import './controls/zstyle.pcss'
 import './inputs/zstyle.pcss'
-// TODO import './zstyle.scss'
 
+import type { QuasarPluginOptions } from 'quasar'
 import type { App } from 'vue'
 
 /* ========================================================================== *
@@ -117,7 +117,25 @@ export type * from './types'
 export { icons } from './assets/icons'
 export { translations } from './assets/translations'
 
-export function juitWidgets(app: App): void {
+export function JuitWidgets(app: App, quasarConfig: QuasarPluginOptions = {}): void {
+  // Opinionated defaults:
+  if (! quasarConfig.config) quasarConfig.config = {}
+  if (! quasarConfig.config.loading) quasarConfig.config.loading = {}
+  // - loading delay: 500ms
+  if (! quasarConfig.config.loading.delay) quasarConfig.config.loading.delay = 500
+  // - no ripple (unless explicitly set)
+  if (! quasarConfig.config.ripple) quasarConfig.config.ripple = false
+  // - we need the "Dialog" plugin
+  if (! quasarConfig.plugins) quasarConfig.plugins = {}
+  if (! quasarConfig.plugins.Dialog) quasarConfig.plugins.Dialog = Dialog
+  // - force our icon set
+  if (! quasarConfig.iconSet) quasarConfig.iconSet = iconSet
+
+  // Configure Quasar with our opinionated defaults
+  app.use(Quasar, quasarConfig)
+
+  // ===== COMPONENTS ==========================================================
+
   // buttons
   app.component('ZBtn', ZBtn)
   app.component('ZBtnDropdown', ZBtnDropdown)
