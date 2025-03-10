@@ -1,5 +1,9 @@
 @use 'sass:color';
 
+@import url('quasar/src/css/index.sass');
+@import url('quasar/src/css/flex-addon.sass');
+@import url('@quasar/extras/material-symbols-rounded/material-symbols-rounded.css');
+
 // missing in "quasar.sass"
 // - "$text", the text color of the page
 // - "$page", the background color of the page
@@ -65,5 +69,3 @@ $dark-text: #fff !default;
 .bg-shade-warning  { background-color: var(--q-shade-warning) !important }
 .bg-tint           { background-color: var(--q-tint) !important }
 .bg-tint-primary   { background-color: var(--q-tint-primary) !important }
-
-@import url('./dist/index.css');
