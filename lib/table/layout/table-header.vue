@@ -64,6 +64,7 @@
 ============================================================================ -->
 
 <script setup lang="ts">
+import { QCheckbox, QIcon, QTh, QTr } from 'quasar'
 import { computed } from 'vue'
 
 import { icons } from '../../assets/icons'

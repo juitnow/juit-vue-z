@@ -38,6 +38,7 @@ import {
   QCard,
   QCardActions,
   QCardSection,
+  QDialog,
   QIcon,
   QSeparator,
   useDialogPluginComponent,

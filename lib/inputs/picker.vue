@@ -45,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { QCardSection } from 'quasar'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 import ZDialog from '../dialogs/dialog.vue'

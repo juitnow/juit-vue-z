@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { icons } from '../assets/icons'
 import { componentFormProps } from '../utils/form'
+import ZControlToggle from './toggle.vue'
 
 defineOptions({ name: 'ZControlDeleted' })
 

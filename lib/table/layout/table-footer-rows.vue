@@ -37,6 +37,8 @@
 ============================================================================ -->
 
 <script setup lang="ts">
+import { QIcon, QItem, QItemLabel, QItemSection, QList } from 'quasar'
+
 import { icons } from '../../assets/icons'
 import ZBtnDropdown from '../../buttons/btn-dropdown.vue'
 

@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { useTranslator } from '@juit/vue-i18n'
+import { QItem, QItemSection } from 'quasar'
 import { onMounted, ref } from 'vue'
 
 import { componentFormProps } from '../utils/form'

@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { useTranslator } from '@juit/vue-i18n'
+import { QIcon } from 'quasar'
 import { computed, onMounted, ref } from 'vue'
 
 import { icons } from '../assets/icons'

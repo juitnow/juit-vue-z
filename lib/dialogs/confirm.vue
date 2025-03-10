@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { useTranslator } from '@juit/vue-i18n'
+import { QCardActions, QCardSection } from 'quasar'
 import { ref } from 'vue'
 
 import { icons } from '../assets/icons'

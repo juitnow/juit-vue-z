@@ -184,20 +184,23 @@
 </template>
 
 <script setup lang="ts">
-import { is } from 'quasar'
+import { is, QCardSection, QIcon } from 'quasar'
 import { computed, ref, toRaw, watch } from 'vue'
-
 
 import { icons } from '../assets/icons'
 import { translations } from '../assets/translations'
+import ZBtnGroup from '../buttons/btn-group.vue'
+import ZBtn from '../buttons/btn.vue'
 import { useDialogs } from '../composition/dialogs'
+import ZDialog from '../dialogs/dialog.vue'
+import ZForm from '../forms/form.vue'
+import ZLabel from '../inputs/label.vue'
 import { getListicle } from '../utils/listicle'
 import { createLoader } from '../utils/loader'
 import ZListicle from './listicle.vue'
 import ZObjectHeader from './object-header.vue'
 
 import type { PropType, VNode } from 'vue'
-import type { ZForm } from '..'
 import type { ZBaseObject } from '../types'
 
 const { confirmDelete, confirmDiscard, confirmRestore } = useDialogs()
@@ -295,7 +298,7 @@ const _slots = defineSlots<{
 /** The backup copy of our object to check for difference/restore */
 let _backup: ZBaseObject | undefined = undefined
 /** Reference to our form for validation */
-const _form = ref<ZForm | undefined>()
+const _form = ref<InstanceType<typeof ZForm> | undefined>()
 
 /** Flag indicating whether the object has been modified or not */
 const _modified = computed(() => _editing.value && (! is.deepEqual(_value.value, _backup)))

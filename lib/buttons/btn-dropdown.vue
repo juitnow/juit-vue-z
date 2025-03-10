@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { QBtnDropdown } from 'quasar'
+import { QBtnDropdown, QTooltip } from 'quasar'
 import { ref } from 'vue'
 
 import type { QBtnDropdownProps, QBtnDropdownSlots } from 'quasar'

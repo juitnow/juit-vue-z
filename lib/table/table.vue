@@ -185,7 +185,7 @@
 ============================================================================ -->
 
 <script setup lang="ts">
-import { is, useQuasar } from 'quasar'
+import { is, QCheckbox, QIcon, QSpinner, QTable, QTd, QTr, useQuasar } from 'quasar'
 import { computed, defineComponent, h, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 

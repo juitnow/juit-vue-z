@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 import { icons } from '../assets/icons'
+import ZBtn from '../buttons/btn.vue'
 
 import type { PropType } from 'vue'
 import type { ZListicle } from '../utils/listicle'

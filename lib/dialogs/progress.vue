@@ -30,9 +30,11 @@
 
 <script setup lang="ts">
 import { useTranslator } from '@juit/vue-i18n'
+import { QCardActions, QCardSection, QLinearProgress } from 'quasar'
 import { computed, ref } from 'vue'
 
 import { icons } from '../assets/icons'
+import ZBtn from '../buttons/btn.vue'
 import ZDialog from './dialog.vue'
 
 import type { PropType } from 'vue'

@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import { QList } from 'quasar'
+
 import ZBtnDropdown from '../buttons/btn-dropdown.vue'
 import ZFormHelper from '../forms/form-helper.vue'
 import { componentFormProps } from '../utils/form'

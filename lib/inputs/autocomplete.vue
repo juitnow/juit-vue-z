@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { QIcon, QItem, QItemSection, QSelect } from 'quasar'
+import { QIcon, QItem, QItemSection, QSelect, QSpinner } from 'quasar'
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 
 import { icons } from '../assets/icons'

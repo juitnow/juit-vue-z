@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { QBtn, QTooltip } from 'quasar'
 
 import type { QBtnProps, QBtnSlots, Screen } from 'quasar'
 

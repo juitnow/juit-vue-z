@@ -115,6 +115,7 @@
 <script setup lang="ts">
 import { QIcon, QInput } from 'quasar'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import { icons } from '../assets/icons'
 import { useValidators } from '../composition/validators'

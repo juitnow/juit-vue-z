@@ -50,10 +50,12 @@ import { computed, ref, toRaw } from 'vue'
 
 import { icons } from '../assets/icons'
 import { translations } from '../assets/translations'
+import ZBtnGroup from '../buttons/btn-group.vue'
+import ZBtn from '../buttons/btn.vue'
+import ZForm from '../forms/form.vue'
 import JPageHeader from './object-header.vue'
 
 import type { PropType, VNode } from 'vue'
-import type { ZForm } from '../index'
 
 /* ===== NAME, PROPS, SLOTS & EMITS ========================================= */
 
@@ -106,7 +108,7 @@ const _emit = defineEmits<{
 /** Backup of the `modelValue` to check for differences */
 const _backup = structuredClone(toRaw(_props.value))
 /** Reference to our form for validation */
-const _form = ref<ZForm | undefined>()
+const _form = ref<InstanceType<typeof ZForm> | undefined>()
 
 /** Flag indicating whether the object has been modified or not */
 const _modified = computed(() => ! is.deepEqual(_props.value, _backup))
