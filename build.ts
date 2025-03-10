@@ -1,6 +1,6 @@
 import { Extractor, ExtractorConfig, ExtractorLogLevel, ExtractorMessageCategory } from '@microsoft/api-extractor'
 import '@plugjs/eslint'
-import { assert, banner, context, exec, Files, find, log, plugjs, resolve, rmrf } from '@plugjs/plug'
+import { assert, banner, context, exec, Files, find, log, merge, plugjs, resolve, rmrf, using } from '@plugjs/plug'
 import { logLevels } from '@plugjs/plug/logging'
 import * as vite from 'vite'
 
@@ -83,9 +83,16 @@ export default plugjs({
   async lint(): Promise<void> {
     banner('Linting source code')
 
-    await find('**/*.([cm])?ts', '**/*.([cm])?js', '**/*.vue', {
-      directory: resolve('lib'),
-    }).eslint()
+    await merge([
+      find('**/*.([cm])?ts', '**/*.([cm])?js', '**/*.vue', { directory: 'lib' }),
+      find('**/*.([cm])?ts', '**/*.([cm])?js', '**/*.vue', { directory: 'src' }),
+    ]).eslint()
+  },
+
+  async copy(): Promise<Files> {
+    banner('Copying assets')
+
+    return using('index.scss', { directory: 'lib' }).copy('dist')
   },
 
   async dts(): Promise<void> {
@@ -177,6 +184,7 @@ export default plugjs({
     await this.tsc()
     await this.lint()
     await this.vite()
+    await this.copy()
     await this.dts() // after "vite" (it wipes the "dist" folder)
     banner('Build complete')
   },
