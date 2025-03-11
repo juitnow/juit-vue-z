@@ -13,6 +13,7 @@ import type {
   ZControlToggle,
   ZCountry,
   ZDate,
+  ZDateRange,
   ZDialog,
   ZEan13,
   ZForm,
@@ -98,6 +99,8 @@ declare module 'vue' {
     ZCountry: ComponentConstructor<ZCountry>,
     /** Date input */
     ZDate: ComponentConstructor<ZDate>,
+    /** Date Range input */
+    ZDateRange: ComponentConstructor<ZDateRange>,
     /** EAN13 input */
     ZEan13: ComponentConstructor<ZEan13>,
     /** Label */
