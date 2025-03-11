@@ -11,6 +11,7 @@ import type {
   ZControlSearch,
   ZControlSwitch,
   ZControlToggle,
+  ZCountry,
   ZDate,
   ZDialog,
   ZEan13,
@@ -93,6 +94,8 @@ declare module 'vue' {
     ZAddress: ComponentConstructor<ZAddress>,
     /** Autocomplete input */
     ZAutocomplete: ComponentConstructor<ZAutocomplete>,
+    /** Country selector */
+    ZCountry: ComponentConstructor<ZCountry>,
     /** Date input */
     ZDate: ComponentConstructor<ZDate>,
     /** EAN13 input */
