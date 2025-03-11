@@ -24,7 +24,7 @@
  * ========================================================================== */
 
 // This must be *BEFORE* the import of the CSS file
-import './lib/index.scss'
+import './dist/index.scss'
 // This must be *AFTER* the import of the SCSS file
 import './dist/index.css'
 

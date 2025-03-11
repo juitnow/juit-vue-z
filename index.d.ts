@@ -6,6 +6,6 @@
  * re-export untouched) our "globals.d.ts" file that auguments the Vue module *
  * and then simply export the definition bundled by "Api Extractor".          *
  * ========================================================================== */
-import './lib/globals'
+import './dist/globals'
+export * from './dist/globals'
 export * from './dist/index'
-export * from './lib/globals'
