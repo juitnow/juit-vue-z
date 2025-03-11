@@ -1,8 +1,8 @@
 @use 'sass:color';
 
-@import url('quasar/src/css/index.sass');
-@import url('quasar/src/css/flex-addon.sass');
-@import url('@quasar/extras/material-symbols-rounded/material-symbols-rounded.css');
+@import 'quasar/src/css/index.sass';
+@import 'quasar/src/css/flex-addon.sass';
+@import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css';
 
 // missing in "quasar.sass"
 // - "$text", the text color of the page
