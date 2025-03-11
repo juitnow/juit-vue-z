@@ -32,4 +32,9 @@
     "src/**/*",
     "src/**/*.vue",
   ],
+  // The "globals.d.ts" file *must* be excluded from the build otherwise
+  // "API Extractor" will fail to build the package. Still don't know why...
+  "exclude": [
+    "lib/globals.d.ts",
+  ]
 }
