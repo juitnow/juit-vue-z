@@ -459,11 +459,34 @@
             :readonly="readonly"
             :clearable="clearable"
             :max-length="maxLength ? 30 : undefined"
+            :region="country"
 
-            @address="warn('Address selected'), address = $event"
+            @address="warn('Address selected'), address = $event, country = $event.country"
           />
           <div class="col-6">
             {{ JSON.stringify(address) }}
+          </div>
+        </div>
+      </div>
+
+      <h6>Country</h6>
+      <div class="bg-shade borders rounded-borders q-pa-sm ">
+        <div class="row q-col-gutter-md items-center">
+          <z-country
+            v-model="country"
+            class="col-6"
+
+            :label="label ? 'Label' : ''"
+            :placeholder="placeholder ? 'Placeholder' : ''"
+            :hint="hint ? 'Hint' : undefined"
+            :icon="icon ? 'sym_r_search' : undefined"
+
+            :required="required"
+            :readonly="readonly"
+            :clearable="clearable"
+          />
+          <div class="col-6">
+            {{ JSON.stringify(country) }}
           </div>
         </div>
       </div>
@@ -526,7 +549,7 @@ const date = ref('')
 const picked = ref<'left' |'right' | null>(null)
 const pickerShowing = ref(false)
 const address = ref<ZAddressData>()
-
+const country = ref<string>()
 
 function warn(message: string): void {
   notify({ message, color: 'grey', group: false })
