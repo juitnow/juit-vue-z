@@ -7,8 +7,7 @@
     ".": {
       "types": "./index.d.ts",
       "import": "./index.js"
-    },
-    "./index.scss": "./index.scss"
+    }
   },
   "scripts": {
     "build": "plug",
@@ -56,9 +55,9 @@
   },
   "files": [
     "dist",
-    "globals.d.ts",
     "index.d.ts",
     "index.js",
-    "index.scss"
+    "lib/globals.d.ts",
+    "lib/index.scss"
   ]
 }
