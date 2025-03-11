@@ -363,6 +363,28 @@
         </div>
       </div>
 
+      <h6>Date Range</h6>
+      <div class="bg-shade borders rounded-borders q-pa-sm ">
+        <div class="row q-col-gutter-md items-center">
+          <z-date-range
+            v-model="dateRange"
+            class="col-6"
+
+            :label="label ? 'Label' : ''"
+            :placeholder="placeholder ? 'Placeholder' : ''"
+            :hint="hint ? 'Hint' : undefined"
+            :icon="icon ? 'sym_r_search' : undefined"
+
+            :clearable="clearable"
+            :required="required"
+            :readonly="readonly"
+          />
+          <div class="col-6">
+            {{ JSON.stringify(dateRange) }}
+          </div>
+        </div>
+      </div>
+
       <h6>Picker</h6>
       <div class="bg-shade borders rounded-borders q-pa-sm ">
         <div class="row q-col-gutter-md items-center">
@@ -546,6 +568,7 @@ const barcode = ref('')
 const tags = ref<string[]>([])
 const selected = ref('')
 const date = ref('')
+const dateRange = ref<{ from: string, to: string }>()
 const picked = ref<'left' |'right' | null>(null)
 const pickerShowing = ref(false)
 const address = ref<ZAddressData>()

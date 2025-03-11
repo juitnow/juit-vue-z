@@ -24,6 +24,7 @@ import ZInputGroup from './forms/input-group.vue'
 import ZAddress from './inputs/address.vue'
 import ZAutocomplete from './inputs/autocomplete.vue'
 import ZCountry from './inputs/country.vue'
+import ZDateRange from './inputs/date-range.vue'
 import ZDate from './inputs/date.vue'
 import ZEan13 from './inputs/ean13.vue'
 import ZLabel from './inputs/label.vue'
@@ -86,6 +87,7 @@ export type ZAddress = InstanceType<typeof ZAddress>
 export type ZAutocomplete = InstanceType<typeof ZAutocomplete>
 export type ZCountry = InstanceType<typeof ZCountry>
 export type ZDate = InstanceType<typeof ZDate>
+export type ZDateRange = InstanceType<typeof ZDateRange>
 export type ZEan13 = InstanceType<typeof ZEan13>
 export type ZLabel = InstanceType<typeof ZLabel>
 export type ZNullableNumber = InstanceType<typeof ZNullableNumber>
@@ -162,6 +164,7 @@ export function JuitWidgets(app: App, quasarConfig: QuasarPluginOptions = {}): v
   app.component('ZAutocomplete', ZAutocomplete)
   app.component('ZCountry', ZCountry)
   app.component('ZDate', ZDate)
+  app.component('ZDateRange', ZDateRange)
   app.component('ZEan13', ZEan13)
   app.component('ZLabel', ZLabel)
   app.component('ZNullableNumber', ZNullableNumber)
