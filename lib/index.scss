@@ -1,0 +1,71 @@
+@use 'sass:color';
+
+@import 'quasar/src/css/index.sass';
+@import 'quasar/src/css/flex-addon.sass';
+@import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css';
+
+// missing in "quasar.sass"
+// - "$text", the text color of the page
+// - "$page", the background color of the page
+// - "$dark-text", the text color of the page in dark mode
+// ... we only have "$dark-page", the background color of the page in dark mode
+$text: $dark !default; // a bit nicer than #000 ???
+$page: #fff !default;
+$dark-text: #fff !default;
+// $dark-page: #121212 !default; // already defined in "quasar.sass"
+
+/* Root Definitions (SCSS => CSS variables) */
+:root {
+  color: $text;
+
+  // colors for page and text
+  --q-text: #{$text};
+  --q-page: #{$page};
+
+  // weak shades (hues)
+  --q-hue: #{rgba($text, 0.025)};
+  --q-hue-primary: #{rgba($primary, 0.05)};
+
+  // medium shades
+  --q-shade: #{rgba($text, 0.05)};
+  --q-shade-primary: #{rgba($primary, 0.1)};
+  --q-shade-negative: #{rgba($negative, 0.1)};
+  --q-shade-warning: #{rgba($warning, 0.1)};
+
+  // strong shades (tints)
+  --q-tint: #{rgba($text, 0.2)};
+  --q-tint-primary: #{rgba($primary, 0.5)};
+
+  // borders
+  --q-border-color: #{$separator-color}; // alpha is .12
+  --q-border-active-color: #{rgba($separator-color, 0.36)}; // 0.12 => 0.24
+  --q-border-radius: #{$generic-border-radius};
+
+  .body--dark {
+    color: $dark-text;
+
+    // colors for page and text
+    --q-text: #{$dark-text};
+    --q-page: #{$dark-page};
+
+    // redefine only what's calculated from "$text" / "$separator-color"
+    --q-hue: #{rgba($dark-text, 0.025)};
+    --q-shade: #{rgba($dark-text, 0.05)};
+    --q-tint: #{rgba($dark-text, 0.20)};
+    --q-border-color: #{$separator-dark-color}; // alpha is .12
+    --q-border-active-color: #{rgba($separator-dark-color, 0.24)}; // 0.12 => 0.24
+  }
+}
+
+/* Utility Classes */
+.text-page         { color: var(--q-text) !important }
+
+.bg-page           { background-color: var(--q-page) !important }
+.bg-hue            { background-color: var(--q-hue) !important }
+.bg-hue-primary    { background-color: var(--q-hue-primary) !important }
+.bg-shade          { background-color: var(--q-shade) !important }
+.bg-shade-primary  { background-color: var(--q-shade-primary) !important }
+.bg-shade-negative { background-color: var(--q-shade-negative) !important }
+.bg-shade-warning  { background-color: var(--q-shade-warning) !important }
+.bg-tint           { background-color: var(--q-tint) !important }
+.bg-tint-primary   { background-color: var(--q-tint-primary) !important }

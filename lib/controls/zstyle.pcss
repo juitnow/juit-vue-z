@@ -1,0 +1,27 @@
+.z-control {
+  padding: 6px 4px;
+  border: 1px solid var(--q-shade);
+  border-radius: var(--q-border-radius);
+  background-color: var(--q-hue) !important;
+  transition-property: border-color, background-color, color;
+  transition-duration: 0.36s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  .q-focus-helper { display: none } /* Send the focus helper to the pits of hell */
+
+  &:hover {
+    border-color: var(--q-tint);
+    background-color: var(--q-shade) !important;
+  }
+
+  &.z-control-active {
+    color: var(--q-primary) !important;
+    background-color: var(--q-shade-primary) !important;
+  }
+
+  &.z-btn-disabled {
+    color: var(--q-tint) !important; /* Tint over tint (it's a shade) */
+    background-color: var(--q-hue) !important; /* Preserve the hue on disabled controls */
+  }
+
+}

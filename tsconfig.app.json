@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "lib": [ "es2022", "dom", "dom.iterable" ],
+    "types": [ "@types/google.maps" ],
+
+    "strict": true,
+    "noImplicitThis": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./build",
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    "baseUrl": "."
+  },
+  "include": [
+    "env.d.ts",
+    "lib/**/*",
+    "lib/**/*.vue",
+    "src/**/*",
+    "src/**/*.vue",
+  ],
+  // The "globals.d.ts" file *must* be excluded from the build otherwise
+  // "API Extractor" will fail to build the package. Still don't know why...
+  "exclude": [
+    "lib/globals.d.ts",
+  ]
+}
