@@ -129,26 +129,10 @@ const _value = defineModel({
 /** The localized value to display */
 const _localized = computed(() => {
   if (_value.value.from === _value.value.to) {
-    return d(_value.value.from, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      weekday: 'short',
-      timeZone: 'UTC',
-    })
+    return d(_value.value.from, 'date')
   } else {
-    const from = d(_value.value.from, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      timeZone: 'UTC',
-    })
-    const to = d(_value.value.to, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      timeZone: 'UTC',
-    })
+    const from = d(_value.value.from, 'date')
+    const to = d(_value.value.to, 'date')
     return `${from} - ${to}`
   }
 })
