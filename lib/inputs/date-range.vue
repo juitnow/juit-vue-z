@@ -30,7 +30,7 @@
           minimal
           range
           mask="YYYY-MM-DD"
-          :model-value="_value"
+          :model-value="_value || ''"
           :first-day-of-week="1"
           @update:model-value="_onUpdate"
         />
@@ -57,7 +57,9 @@ import { icons } from '../assets/icons'
 import { componentFormProps } from '../utils/form'
 import ZText from './text.vue'
 
+import type { DateTimeFormatAlias } from '@juit/vue-i18n'
 import type { PropType } from 'vue'
+import type { ZDateRangeData } from '../types'
 
 const { d } = useTranslator()
 
@@ -65,9 +67,6 @@ const { d } = useTranslator()
 const _ztext = ref<InstanceType<typeof ZText>>()
 /** Ref to our `QPopupProxy` */
 const _qpopup = ref<QPopupProxy>()
-
-/** The type for the Date Range*/
-export type DateRange = { from: string, to: string }
 
 /* ===== NAME, PROPS, MODEL, EMITS, ... ===================================== */
 
@@ -100,6 +99,11 @@ const _props = defineProps({
     required: false,
     default: icons.date,
   },
+  format: {
+    type: [ String, Object ] as PropType<DateTimeFormatAlias | Intl.DateTimeFormatOptions>,
+    required: false,
+    default: 'date',
+  },
 
   /* ===== UTILITY PROPS ==================================================== */
 
@@ -121,18 +125,19 @@ const _props = defineProps({
 
 /** The value of the input */
 const _value = defineModel({
-  type: Object as PropType<DateRange>,
+  type: Object as PropType<ZDateRangeData | undefined>,
   required: false,
-  default: '',
 })
 
 /** The localized value to display */
 const _localized = computed(() => {
+  if (! _value.value) return ''
+
   if (_value.value.from === _value.value.to) {
-    return d(_value.value.from, 'date')
+    return d(_value.value.from, _props.format, 'UTC')
   } else {
-    const from = d(_value.value.from, 'date')
-    const to = d(_value.value.to, 'date')
+    const from = d(_value.value.from, _props.format, 'UTC')
+    const to = d(_value.value.to, _props.format, 'UTC')
     return `${from} - ${to}`
   }
 })
@@ -156,7 +161,7 @@ function _onClick(event: MouseEvent): void {
   event.preventDefault()
 }
 
-function _onUpdate(value: string | DateRange): void {
+function _onUpdate(value: string | ZDateRangeData): void {
   if (! value) return // ignore when QDate clears the value
   if (value !== _value.value) {
     if (typeof(value) === 'string') {
@@ -177,14 +182,12 @@ function _onUpdate(value: string | DateRange): void {
 const _onClear = computed((): (() => void) | undefined => {
   // Easy cases...
   if (_props.clearable === false) return undefined
-  if (_props.clearable === true) return () => _value.value = { from: '', to: '' }
+  if (_props.clearable === true) return () => _value.value = undefined
   // When clearable is set to "today", we clear only if value is _not_ today
   if (_props.clearable === 'today') {
-    if ((_value.value.from === _today() && (_value.value.to === _today()))) return undefined
-    return () => _value.value = {
-      from: _today(),
-      to: _today(),
-    }
+    const today = _today()
+    if ((_value.value?.from === today) && (_value.value.to === today)) return undefined
+    return () => _value.value = { from: today, to: today }
   } else return undefined
 })
 
