@@ -291,7 +291,7 @@
         </div>
       </div>
 
-      <h6>TAGS</h6>
+      <h6>Tags</h6>
       <div class="bg-shade borders rounded-borders q-pa-sm ">
         <div class="row q-col-gutter-md items-center">
           <z-tags
@@ -313,7 +313,7 @@
         </div>
       </div>
 
-      <h6>SELECT</h6>
+      <h6>Select</h6>
       <div class="bg-shade borders rounded-borders q-pa-sm ">
         <div class="row q-col-gutter-md items-center">
           <z-select
@@ -375,7 +375,7 @@
             :hint="hint ? 'Hint' : undefined"
             :icon="icon ? 'sym_r_search' : undefined"
 
-            :clearable="clearable"
+            :clearable="clearable ? required ? 'today' : true : false"
             :required="required"
             :readonly="readonly"
           />
@@ -522,7 +522,7 @@ import { ref } from 'vue'
 
 import { useDialogs } from '../lib'
 
-import type { ZAddressData, ZDialog, ZForm, ZOption, ZPicker } from '../lib'
+import type { ZAddressData, ZDateRangeData, ZDialog, ZForm, ZOption, ZPicker } from '../lib'
 
 const _dialogs = useDialogs()
 const { notify } = useQuasar()
@@ -568,7 +568,7 @@ const barcode = ref('')
 const tags = ref<string[]>([])
 const selected = ref('')
 const date = ref('')
-const dateRange = ref<{ from: string, to: string }>()
+const dateRange = ref<ZDateRangeData>()
 const picked = ref<'left' |'right' | null>(null)
 const pickerShowing = ref(false)
 const address = ref<ZAddressData>()
