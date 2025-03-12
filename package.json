@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "exports": {
     ".": {
@@ -14,7 +14,7 @@
     "dev": "vite -c vite.config.demo.ts"
   },
   "peerDependencies": {
-    "@juit/vue-i18n": "^0.2.5",
+    "@juit/vue-i18n": "^0.2.8",
     "@quasar/extras": "^1.16.17",
     "quasar": "^2.18.1",
     "vue": "^3.5.13",
