@@ -522,14 +522,15 @@
 
             :label="label ? 'Label' : ''"
             :placeholder="placeholder ? '012345678' : ''"
-            :hint="hint ? 'Hint' : undefined"
+            :hint="hint ? 'Use z-country above to change country' : undefined"
             :icon="icon ? 'sym_r_call' : undefined"
+            :lazy-rules="true"
 
             :required="required"
             :readonly="readonly"
             :clearable="clearable"
 
-            country="DE"
+            :country="country"
           />
           <div class="col-6">
             {{ JSON.stringify(telephone) }}
