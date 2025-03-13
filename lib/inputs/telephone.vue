@@ -2,69 +2,59 @@
   <z-text
     ref="_ztext"
     v-bind="$attrs"
-    v-model="_value"
-
+    v-model="_tempValue"
     type="text"
-    :mode="mode"
+    mode="numeric"
 
     :label="label"
     :placeholder="placeholder"
     :hint="hint"
     :icon="icon"
-    :link="link"
 
     :bottom-slots="bottomSlots"
     :editable="editable"
     :disabled="disabled"
     :readonly="readonly"
 
-    :debounce="debounce"
-    :suffix="suffix"
-    :prefix="prefix"
-
     :required="required"
-    :max-length="maxLength"
-    :rules="_rules"
+    :rules="country ? _rules : undefined"
     :lazy-rules="lazyRules"
+    :prefix="`+${_prefix}`"
 
-    @clear="_value = ''"
-  >
-    <template v-if="_slots.append" #append="formProps">
-      <slot name="append" v-bind="formProps" />
-    </template>
-  </z-text>
+    @clear="_value = _tempValue = ''"
+    @beforeinput="_onBeforeinput"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
+import { countries } from '../assets/countries'
 import { useValidators } from '../composition/validators'
 import { componentFormProps } from '../utils/form'
 import ZText from './text.vue'
 
-import type { PropType, VNode } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
+import type { PropType } from 'vue'
 import type { ZValidator } from '../composition/validators'
-import type { ZFormProps } from '../utils/form'
 
-const validators = useValidators()
+const { minLength, maxLength } = useValidators()
 
 /** Ref to our `ZText` */
 const _ztext = ref<InstanceType<typeof ZText>>()
 
 /* ===== NAME, PROPS, MODEL, EMITS, ... ===================================== */
 
-defineOptions({ name: 'ZString', inheritAttrs: false })
+defineOptions({ name: 'ZTelephone', inheritAttrs: false })
 
 const _props = defineProps({
 
-  /* ===== INPUT TYPE ======================================================= */
+  /* ===== COUNTRY ============================================================= */
 
-  /** The virtual keyboard to use on mobile devices*/
-  mode: {
-    type: String as PropType<'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'>,
+  /** The country the telephone number belongs to */
+  country: {
+    type: String as PropType<string | undefined>,
     required: false,
-    default: 'text',
+    default: undefined,
   },
 
   /* ===== FRILLS =========================================================== */
@@ -92,33 +82,6 @@ const _props = defineProps({
     required: false,
     default: undefined,
   },
-  /** An optional link that will make the icon navigable */
-  link: {
-    type: [ Object, String ] as PropType<RouteLocationRaw | undefined>,
-    required: false,
-    default: undefined,
-  },
-
-  /* ===== UTILITY PROPS ==================================================== */
-
-  /** The debounce time in milliseconds for the input field */
-  debounce: {
-    type: Number as PropType<number | undefined>,
-    required: false,
-    default: undefined,
-  },
-  /** The suffix to add to the input */
-  suffix: {
-    type: String as PropType<string>,
-    required: false,
-    default: '',
-  },
-  /** The prefix to add to the input */
-  prefix: {
-    type: String as PropType<string>,
-    required: false,
-    default: undefined,
-  },
 
   /* ===== VALIDATION ======================================================= */
 
@@ -127,18 +90,6 @@ const _props = defineProps({
     type: Boolean,
     required: false,
     default: false,
-  },
-  /** The minimum length of this field (starting at 1, for 0 use "required") */
-  minLength: {
-    type: Number,
-    required: false,
-    default: 0,
-  },
-  /**  The maximum length, displayed with a counter (and error when too long). */
-  maxLength: {
-    type: Number,
-    required: false,
-    default: 0,
   },
   /** The validation rules to apply to this field */
   rules: {
@@ -150,25 +101,56 @@ const _props = defineProps({
   ...componentFormProps,
 })
 
-/** The value of the input */
+/* ===== MODEL ======================================================= */
+
+/** The value of the input (formatted) */
 const _value = defineModel({
   type: String,
   required: false,
   default: '',
 })
 
-/* Slots */
-const _slots = defineSlots<{
-  append?: (formProps: Readonly<ZFormProps>) => VNode[]
-}>()
+/** The temporary value, before the formatting (without the prefix, and with possible leading zeros) */
+const _tempValue = ref<string>()
+
+/** When the input changes, we format it and save it */
+watch(() => _tempValue.value, (telephone) => {
+  if (! telephone) return
+  _value.value = telephone
+      .replace(/^[\s0]+/, '') // wipe all leading spaces and zeros
+      .replace(/^/, `+${_prefix.value}`) // add the prefix to the beginning of the string
+})
+
+/* ===== VALIDATION ========================================================= */
+
+/** The preffix, depending on the country */
+const _prefix = computed(() => {
+  const country = countries.find((country) => country.code === _props.country)
+  return country?.dial_code
+})
+
+/** If the country changes > we reset the phone number, since it will have the old prefix */
+watch(() => _props.country, () => _value.value = _tempValue.value = '')
 
 /** Validation rules */
-const _rules = computed(() => {
-  const rules: ZValidator<string>[] = []
-  if (_props.minLength > 0) rules.push(validators.minLength(_props.minLength))
-  rules.push(..._props.rules)
-  return rules
-})
+const _rules = computed<ZValidator<string>[]>(() => [
+  // min / max length
+  minLength(7),
+  maxLength(13),
+  // rules from props
+  ..._props.rules,
+] satisfies ZValidator<string>[])
+
+/* ===== AUTOFILL =========================================================== */
+
+function _onBeforeinput(event: InputEvent): void {
+  // paste, autofill, .... leave it up to the validation
+  if (event.inputType !== 'insertText') return
+  // the "insertText" event is when we _type_ something, only numbers!
+  if (event.data?.match(/^\d+$/)) return
+  // something else but text
+  event.preventDefault()
+}
 
 /* ===== SETUP ============================================================== */
 

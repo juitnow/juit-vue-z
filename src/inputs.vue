@@ -512,6 +512,30 @@
           </div>
         </div>
       </div>
+
+      <h6>Telephone</h6>
+      <div class="bg-shade borders rounded-borders q-pa-sm ">
+        <div class="row q-col-gutter-md items-center">
+          <z-telephone
+            v-model="telephone"
+            class="col-6"
+
+            :label="label ? 'Label' : ''"
+            :placeholder="placeholder ? '012345678' : ''"
+            :hint="hint ? 'Hint' : undefined"
+            :icon="icon ? 'sym_r_call' : undefined"
+
+            :required="required"
+            :readonly="readonly"
+            :clearable="clearable"
+
+            country="DE"
+          />
+          <div class="col-6">
+            {{ JSON.stringify(telephone) }}
+          </div>
+        </div>
+      </div>
     </z-form>
   </q-page>
 </template>
@@ -573,6 +597,7 @@ const picked = ref<'left' |'right' | null>(null)
 const pickerShowing = ref(false)
 const address = ref<ZAddressData>()
 const country = ref<string>()
+const telephone = ref<string>()
 
 function warn(message: string): void {
   notify({ message, color: 'grey', group: false })
