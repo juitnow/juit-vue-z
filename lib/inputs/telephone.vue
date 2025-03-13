@@ -2,7 +2,7 @@
   <z-text
     ref="_ztext"
     v-bind="$attrs"
-    v-model="_value"
+    v-model="_tempValue"
     type="text"
     mode="numeric"
 
@@ -104,7 +104,7 @@ const _props = defineProps({
 
 /* ===== MODEL ======================================================= */
 
-/** The value of the input (formatted) */
+/** The value of the input */
 const _value = defineModel({
   type: String,
   required: false,
@@ -116,21 +116,26 @@ const _value = defineModel({
 /** The flag */
 const _flag = ref()
 
-/** A temporary value. We only add it to the model-value if it is longer than the prefix */
-/** (to avoid saving the preffix as a phone number, when not required) */
-const _tempValue = ref<string>()
+/** The temporary value. We only update the model-value if it is longer than the prefix */
+/** (to avoid saving the mere prefix as a phone number, when not required) */
+const _tempValue = ref<string>('')
 
-/** Ze prefix */
+/** Ze prefix (only the numbers, no +) */
 const _prefix = ref<string>()
 
+/** We watch changes in the _tempValue and the prefix, and update the model value */
+watch([ () => _tempValue.value, () => _prefix.value ], () => {
+  if (_tempValue.value !== `+${_prefix.value}`) _value.value = _tempValue.value
+  else _value.value = ''
+})
+
 /** If the country changes (and there is no phone number yet) > we change prefix + flag */
-watch(() => _props.country, (newCountry, oldCountry) => {
-  // we get the prefix of the old and new countries
-  const oldPrefix = `+${countries.find((country) => country.code === oldCountry)?.dial_code}`
-  const newPrefix = `+${countries.find((country) => country.code === newCountry)?.dial_code}`
+watch(() => _props.country, (newCountry) => {
+  const newPrefix = countries.find((country) => country.code === newCountry)?.dial_code || ''
   // if there is no phone number yet > change prefix + flag
-  if (_value.value === oldPrefix) {
-    _value.value = newPrefix
+  if (_tempValue.value === `+${_prefix.value}`) {
+    _tempValue.value = `+${newPrefix}`
+    _prefix.value = newPrefix
     _flag.value = translator.utils.flag(_props.country as any)
   }
 })
@@ -148,7 +153,7 @@ const _rules = computed<ZValidator<string>[]>(() => [
         .replace(new RegExp(`^\\+${_prefix.value}`), `+${_prefix.value} `) // and a space behind it
         .replace(/\s+/g, ' ') // normalize all spaces to ONE space
 
-    _value.value = number
+    _tempValue.value = number
         .replace(/[^\d]+/g, '') // strip all non-digit (including leading +)
         .replace(/^/, '+') // add a + to make it ITU format
 
@@ -196,7 +201,8 @@ onMounted(() => {
 
 /** Set the prefix */
 function _setPrefix(): void {
-  _prefix.value = _value.value = `+${countries.find((country) => country.code === _props.country)?.dial_code}`
+  _prefix.value = countries.find((country) => country.code === _props.country)?.dial_code
+  _tempValue.value = `+${_prefix.value}`
 }
 /** Set the flag */
 function _setFlag(): void {
@@ -206,9 +212,9 @@ function _setFlag(): void {
 /** We check the value (when the input field loses focus) */
 function _checkValue(): void {
   // if the value is empty (no prefix) > reset prefix
-  if (! _value.value) _setPrefix()
+  if (! _tempValue.value) _setPrefix()
   // if the value starts with the prefix > all good
-  else if (_value.value.startsWith(`+${_prefix.value}`)) return
+  else if (_tempValue.value.startsWith(`+${_prefix.value}`)) return
   // if the prefix was changed manually > update flag
   else _getFlagFromPrefix()
 }
@@ -216,7 +222,7 @@ function _checkValue(): void {
 /** Update the flag */
 function _getFlagFromPrefix(): void {
   // get the country code
-  const country = countries.find((country) => _value.value.startsWith(`+${country.dial_code}`))
+  const country = countries.find((country) => _tempValue.value.startsWith(`+${country.dial_code}`))
   // save the new prefix
   _prefix.value = country?.dial_code
   // save the flag
