@@ -36,6 +36,7 @@
         :readonly="_inactive || nonInteractive"
         :disable="_disabled"
         :rules="_rules"
+        :prefix="prefix"
 
         :model-value="_value"
         @update:model-value="_update"
@@ -251,6 +252,12 @@ const _props = defineProps({
     type: String as PropType<string>,
     required: false,
     default: '',
+  },
+  /** The prefix to add to the input */
+  prefix: {
+    type: String as PropType<string>,
+    required: false,
+    default: undefined,
   },
   /** Keep the value "raw" (as in, do not normalize white spaces) */
   raw: {

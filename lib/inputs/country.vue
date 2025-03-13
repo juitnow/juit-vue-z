@@ -10,17 +10,14 @@
 
     :required="required"
     :clearable="clearable"
-    :suffix="_flag"
+    :suffix="suffix"
     :options="_countries"
     :label="label"
     :placeholder="placeholder"
     :hint="hint"
-    :prefix="prefix"
+    :prefix="_flag"
     :icon="icon"
   >
-    <template #prepend>
-      <span style="font-size: 18px; color: #000">{{ _flag }}</span>
-    </template>
     <template #option="scope">
       <q-item v-bind="scope.itemProps" dense>
         <q-item-section>
@@ -75,8 +72,8 @@ defineProps({
     required: false,
     default: undefined,
   },
-  /** The prefix to display before the input value */
-  prefix: {
+  /** The suffix to display after the input value */
+  suffix: {
     type: String as PropType<string | undefined>,
     required: false,
     default: undefined,

@@ -35,6 +35,7 @@ import ZPicker from './inputs/picker.vue'
 import ZSelect from './inputs/select.vue'
 import ZString from './inputs/string.vue'
 import ZTags from './inputs/tags.vue'
+import ZTelephone from './inputs/telephone.vue'
 import ZText from './inputs/text.vue'
 /* Objects */
 import ZHeader from './objects/object-header.vue'
@@ -98,6 +99,7 @@ export type ZSelect = InstanceType<typeof ZSelect>
 export type ZString = InstanceType<typeof ZString>
 export type ZTags = InstanceType<typeof ZTags>
 export type ZText = InstanceType<typeof ZText>
+export type ZTelephone = InstanceType<typeof ZTelephone>
 
 /* ===== OBJECTS ============================================================ */
 
@@ -175,6 +177,7 @@ export function JuitWidgets(app: App, quasarConfig: QuasarPluginOptions = {}): v
   app.component('ZString', ZString)
   app.component('ZTags', ZTags)
   app.component('ZText', ZText)
+  app.component('ZTelephone', ZTelephone)
   // objects
   app.component('ZHeader', ZHeader)
   app.component('ZObject', ZObject)

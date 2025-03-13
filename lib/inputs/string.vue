@@ -20,6 +20,7 @@
 
     :debounce="debounce"
     :suffix="suffix"
+    :prefix="prefix"
 
     :required="required"
     :max-length="maxLength"
@@ -111,6 +112,12 @@ const _props = defineProps({
     type: String as PropType<string>,
     required: false,
     default: '',
+  },
+  /** The prefix to add to the input */
+  prefix: {
+    type: String as PropType<string>,
+    required: false,
+    default: undefined,
   },
 
   /* ===== VALIDATION ======================================================= */
