@@ -54,7 +54,7 @@ const _ztext = ref<InstanceType<typeof ZText>>()
 
 /* ===== NAME, PROPS, MODEL, EMITS, ... ===================================== */
 
-defineOptions({ name: 'ZString', inheritAttrs: false })
+defineOptions({ name: 'ZString' })
 
 const _props = defineProps({
 

@@ -37,6 +37,7 @@
         :disable="_disabled"
         :rules="_rules"
         :prefix="prefix"
+        style="width: 100%"
 
         :model-value="_value"
         @update:model-value="_update"
