@@ -4,7 +4,7 @@
     v-bind="$attrs"
     v-model="_tempValue"
     type="text"
-    mode="numeric"
+    mode="tel"
 
     :label="label"
     :placeholder="placeholder"
@@ -22,7 +22,7 @@
     :prefix="_flag"
 
     @beforeinput="_onBeforeinput"
-    @clear="_setPrefix(), _setFlag()"
+    @clear="_onClear"
     @blur="_checkValue"
   />
 </template>
@@ -125,16 +125,17 @@ const _prefix = ref<string>()
 
 /** We watch changes in the _tempValue and the prefix, and update the model value */
 watch([ () => _tempValue.value, () => _prefix.value ], () => {
-  if (_tempValue.value !== `+${_prefix.value}`) _value.value = _tempValue.value
+  if (_tempValue.value !== _prefix.value) _value.value = _tempValue.value
   else _value.value = ''
 })
 
 /** If the country changes (and there is no phone number yet) > we change prefix + flag */
 watch(() => _props.country, (newCountry) => {
-  const newPrefix = countries.find((country) => country.code === newCountry)?.dial_code || ''
+  // Object.entries() returns the countries as: [ country_code, prefix ]
+  const newPrefix = Object.entries(countries).find((country) => country[0] === newCountry)?.[1] || ''
   // if there is no phone number yet > change prefix + flag
-  if (_tempValue.value === `+${_prefix.value}`) {
-    _tempValue.value = `+${newPrefix}`
+  if (_tempValue.value === _prefix.value) {
+    _tempValue.value = newPrefix
     _prefix.value = newPrefix
     _flag.value = translator.utils.flag(_props.country as any)
   }
@@ -148,8 +149,8 @@ const _rules = computed<ZValidator<string>[]>(() => [
     const number = value
         .replace(/[^\d\s]+/g, '') // wipe all non-space non-digit
         .replace(/^[\s0]+/, '') // wipe all leading spaces and zeros
-        .replace(new RegExp(`^(${_prefix.value})`), `+${_prefix.value}`) // add a + if already starting with a prefix
-        .replace(new RegExp(`^(?!\\+${_prefix.value})`), `+${_prefix.value}`) // otherwise, add the prefix
+        // .replace(new RegExp(`^(${_prefix.value})`), `+${_prefix.value}`) // add a + if already starting with a prefix
+        // .replace(new RegExp(`^(?!\\+${_prefix.value})`), `+${_prefix.value}`) // otherwise, add the prefix
         .replace(new RegExp(`^\\+${_prefix.value}`), `+${_prefix.value} `) // and a space behind it
         .replace(/\s+/g, ' ') // normalize all spaces to ONE space
 
@@ -201,8 +202,10 @@ onMounted(() => {
 
 /** Set the prefix */
 function _setPrefix(): void {
-  _prefix.value = countries.find((country) => country.code === _props.country)?.dial_code
-  _tempValue.value = `+${_prefix.value}`
+  // Object.entries() returns the countries as: [ country_code, prefix ]
+  _prefix.value = Object.entries(countries).find((country) => country[0] === _props.country)?.[1] || ''
+
+  _tempValue.value = _prefix.value
 }
 /** Set the flag */
 function _setFlag(): void {
@@ -214,18 +217,24 @@ function _checkValue(): void {
   // if the value is empty (no prefix) > reset prefix
   if (! _tempValue.value) _setPrefix()
   // if the value starts with the prefix > all good
-  else if (_tempValue.value.startsWith(`+${_prefix.value}`)) return
+  else if (_tempValue.value.startsWith(_prefix.value || '')) return
   // if the prefix was changed manually > update flag
   else _getFlagFromPrefix()
 }
 
 /** Update the flag */
 function _getFlagFromPrefix(): void {
-  // get the country code
-  const country = countries.find((country) => _tempValue.value.startsWith(`+${country.dial_code}`))
+  // get the country code > (Object.entries() returns the countries as: [ country_code, prefix ])
+  const country = Object.entries(countries).find((country) => _tempValue.value.startsWith(country[1]))
   // save the new prefix
-  _prefix.value = country?.dial_code
+  _prefix.value = country?.[1]
   // save the flag
-  _flag.value = translator.utils.flag(country?.code as any)
+  _flag.value = translator.utils.flag(country?.[0] as any)
+}
+
+/** Reset the prefix and the flag after clearing the input field */
+function _onClear(): void {
+  _setPrefix()
+  _setFlag()
 }
 </script>
