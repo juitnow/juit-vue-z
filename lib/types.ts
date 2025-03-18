@@ -24,3 +24,9 @@ export interface ZBaseObject {
   modified?: Date;
   deleted?: Date;
 }
+
+/** A date range (where `from` and `to` are ISO 8601 dates)*/
+export interface ZDateRangeData {
+  from: string;
+  to: string;
+}

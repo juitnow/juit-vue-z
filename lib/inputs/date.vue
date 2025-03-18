@@ -56,6 +56,7 @@ import { icons } from '../assets/icons'
 import { componentFormProps } from '../utils/form'
 import ZText from './text.vue'
 
+import type { DateTimeFormatAlias } from '@juit/vue-i18n'
 import type { PropType } from 'vue'
 
 const { d } = useTranslator()
@@ -96,6 +97,11 @@ const _props = defineProps({
     required: false,
     default: icons.date,
   },
+  format: {
+    type: [ String, Object ] as PropType<DateTimeFormatAlias | Intl.DateTimeFormatOptions>,
+    required: false,
+    default: 'date',
+  },
 
   /* ===== UTILITY PROPS ==================================================== */
 
@@ -123,9 +129,7 @@ const _value = defineModel({
 })
 
 /** The localized value to display */
-const _localized = computed(() => {
-  return d(_value.value, 'date')
-})
+const _localized = computed(() => d(_value.value, _props.format, 'UTC'))
 
 /* ===== POPUP MANAGEMENT =================================================== */
 
