@@ -6,7 +6,7 @@
     type="text"
     mode="tel"
 
-    :label="label + ' ' + JSON.stringify(_parts)"
+    :label="label"
     :placeholder="placeholder"
     :hint="hint"
     :icon="icon"
@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { useTranslator } from '@juit/vue-i18n'
-import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
+import { ISO_COUNTRIES, useTranslator } from '@juit/vue-i18n'
+import { computed, nextTick, onMounted, ref, shallowRef, triggerRef, watch } from 'vue'
 
-import { prefixes } from '../assets/prefixes'
+import { countriesByITUPrefix, ituPrefixesByCountry } from '../assets/prefixes'
 import { componentFormProps } from '../utils/form'
 import ZText from './text.vue'
 
@@ -38,9 +38,22 @@ import type { PropType } from 'vue'
 import type { ITUPrefix } from '../assets/prefixes'
 import type { ZValidator } from '../composition/validators'
 
+/** Describes a vaild, checked ITU phone prefix */
+interface PhonePrefix {
+  /** The current country (if properly validated) as an ISO code */
+  country: ISOCountry
+  /** The countries associated with the current prefix */
+  countries: [ ISOCountry, ...ISOCountry[]]
+  /** The current country prefix (if properly validated) as an ITU code */
+  prefix: ITUPrefix
+}
+
+/** Describe a phone number, parsed in parts */
 interface PhoneParts {
   /** The current country (if properly validated) as an ISO code */
   country: ISOCountry | ''
+  /** The countries associated with the current prefix */
+  countries: ISOCountry[]
   /** The current country prefix (if properly validated) as an ITU code */
   prefix: ITUPrefix | ''
   /** The regional number (that is digits without the country prefix) */
@@ -51,9 +64,7 @@ interface PhoneParts {
   valid: boolean,
 }
 
-const DEFAULT_PREFIX = '+49' // Germany
-
-const translator = useTranslator()
+const { t, utils } = useTranslator()
 
 /** Ref to our `ZText` */
 const _ztext = ref<InstanceType<typeof ZText>>()
@@ -63,9 +74,6 @@ const _ztext = ref<InstanceType<typeof ZText>>()
 defineOptions({ name: 'ZTelephone', inheritAttrs: false })
 
 const _props = defineProps({
-
-  /* ===== COUNTRY ============================================================= */
-
   /** The country the telephone number belongs to */
   country: {
     type: String as PropType<string>,
@@ -128,48 +136,50 @@ const _value = defineModel({
 
 /* ===== UTILITIES ========================================================== */
 
-/** Reversed prefixes, so that we have a map of: { prefix: [ country, ... ] } */
-const _prefixes = Object.entries(prefixes).reduce((map, [ country, prefixes ]) => {
-  prefixes.forEach((prefix) => {
-    if (! map[prefix]) map[prefix] = [ country as ISOCountry ]
-    else map[prefix].push(country as ISOCountry)
-  })
-  return map
-}, {} as Record<ITUPrefix, [ ISOCountry, ...ISOCountry[] ]>)
-
 /* Check that the prefix is valid, returning the country and the prefix */
-function _checkPrefix(string: string): { country: ISOCountry, prefix: ITUPrefix } | undefined {
+function _checkPrefix(string: string): PhonePrefix | undefined {
   if (! string) return undefined // no match...
-  if (string.length > 4) string = string.slice(0, 4) // max 4 digits in prefixes
-  if (string in _prefixes) {
+
+  // Maximum length of an ITU prefix is 4 digits
+  if (string.length > 4) string = string.slice(0, 4)
+
+  // Check if the prefix is in our list of prefixes
+  if (string in countriesByITUPrefix) {
     const prefix = string as ITUPrefix
-    const countries = _prefixes[prefix]
+    const countries = countriesByITUPrefix[prefix]
     // if the prefix has our default "prop" country, we return that, otherwise the first
-    const country = countries.includes(_props.country as ISOCountry) ? _props.country : countries[0]
-    return { country: country as ISOCountry, prefix }
-  } else return _checkPrefix(string.slice(0, -1)) // recursive
+    const country = countries.find((country) => country === _isoCountry.value)
+    return { country: country || countries[0], countries, prefix }
+  }
+
+  // Recursively proceed with a shorter prefix
+  return _checkPrefix(string.slice(0, -1))
 }
 
 /* Check that the number is valid, returning country, prefix and normalized number */
 function _checkNumber(value: string = ''): PhoneParts {
-  value = value.replace(/[^\d]/g, '') // Only keep numbers...
-  const checked = _checkPrefix(value)
-  if (! checked) {
-    return {
-      country: '',
-      prefix: '',
-      number: value,
-      normalized: value ? `+${value}` : '',
-      valid: false,
-    }
-  }
+  // Normalize the number, keeping only digits
+  value = value.replace(/[^\d]/g, '')
 
-  return {
-    country: checked.country,
-    prefix: checked.prefix,
-    number: value.slice(checked.prefix.length),
+  // Check if we have a valid prefix
+  const phonePrefix = _checkPrefix(value)
+
+  // Return the parts: a "valid" number has a regional part of at least
+  // six digits (this is an arbirary value, but works for most countries)
+  return phonePrefix ? {
+    countries: phonePrefix.countries,
+    country: phonePrefix.country,
+    prefix: phonePrefix.prefix,
+    number: value.slice(phonePrefix.prefix.length),
     normalized: `+${value}`,
-    valid: value.length >= checked.prefix.length + 6, // arbitrary minimum length (6 digits)
+    valid: value.length >= phonePrefix.prefix.length + 6,
+  } : {
+    countries: [],
+    country: '',
+    prefix: '',
+    number: value,
+    normalized: value ? `+${value}` : '',
+    valid: false,
   }
 }
 
@@ -178,7 +188,7 @@ function _formatParts(parts: PhoneParts): string {
   return (parts.prefix && parts.number) ? `+${parts.prefix} ${parts.number}` :
          parts.prefix ? `+${parts.prefix}` :
          parts.number ? `+${parts.number}` :
-          ''
+        ''
 }
 
 /* ===== STATE ============================================================== */
@@ -188,20 +198,36 @@ const _parts = shallowRef<PhoneParts>(_checkNumber(_value.value))
 /** The input value, as displayed in our text box */
 const _input = ref<string>(_formatParts(_parts.value))
 
+/** Computed property ensuring that the country is a valid ISO country */
+const _isoCountry = computed<ISOCountry>(() => {
+  const country = ISO_COUNTRIES.find((country) => country === _props.country)
+  return country || 'DE' // our default country is Germany
+})
+
 /** The flag, computed by the current country (validated) */
 const _flag = computed(() => {
-  if (_parts.value.country) return translator.utils.flag(_parts.value.country)
-  return '\u{1F3F4}\u200D\u2620\uFE0F'
+  if (_parts.value.country) return utils.flag(_parts.value.country)
+  return '\u{1F3F4}\u200D\u2620\uFE0F' // Arrr! That be a bust!
 })
 
 /* When the country prop changes, we update the number if empty */
-watch(() => _props.country, (country) => {
+watch(_isoCountry, (country) => {
+  if (! country) return // Not a valid ISO country...
+
+  // If this is a simple change of country on the same prefix, update the
+  // country in-place and manually trigger the ref to update the flag
+  if (_parts.value.countries.includes(country)) {
+    _parts.value.country = country
+    triggerRef(_parts)
+    return
+  }
+
   // If we already have a number, then we don't change the country
   if (_parts.value.number) return
 
   // Get the prefix, and update the parts
-  const prefix = prefixes[country as ISOCountry]?.[0]
-  _parts.value = _checkNumber(prefix || DEFAULT_PREFIX)
+  const prefix = ituPrefixesByCountry[_isoCountry.value][0]
+  _parts.value = _checkNumber(prefix)
   _input.value = _formatParts(_parts.value)
 }, { immediate: true })
 
@@ -218,8 +244,8 @@ watch(_input, (input) => {
   // If the input was fully cleared, we reset to the default country
   if (input.trim() === '') {
     return nextTick(() => {
-      const prefix = prefixes[_props.country as ISOCountry]?.[0]
-      _parts.value = _checkNumber(prefix || DEFAULT_PREFIX)
+      const prefix = ituPrefixesByCountry[_isoCountry.value][0]
+      _parts.value = _checkNumber(prefix)
       _input.value = _formatParts(_parts.value)
     })
   }
@@ -246,16 +272,40 @@ watch(_input, (input) => {
 /* ===== VALIDATION ========================================================= */
 
 /** Validation rules */
-const _rules = computed<ZValidator<string>[]>(() => [
-  (value: string) => {
-    const parts = _checkNumber(value)
-    if (_props.required) {
-      console.log('VALIDATING', value, parts.normalized)
-    }
+const _rules: ZValidator<string>[] = [ () => {
+  // As we're mangling the text, we need to validate against the current
+  // state (henceforth, the current "value", not the input)
+  const value = _value.value
+
+  // Check if required....
+  if (_props.required && (!value)) {
+    return t({
+      en: 'This field is required',
+      de: 'Dieses Feld ist erforderlich',
+    })
+
+  // When not required, the empty value is a good value
+  } else if (! value) {
     return true
-  },
-  ..._props.rules,
-] satisfies ZValidator<string>[])
+  }
+
+  // Check the parts and the validity of our number
+  if (! _checkNumber(value).valid) {
+    return t({
+      en: 'Invalid phone number',
+      de: 'Ungültige Telefonnummer',
+    })
+  }
+
+  // Run all other configured validators
+  for (const validator of (_props.rules || [])) {
+    const result = validator(value)
+    if (result !== true) return result
+  }
+
+  // All is good
+  return true
+} ]
 
 /* ===== AUTOFILL =========================================================== */
 
