@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [ vue() ],
 
   build: {
-    minify: true,
+    minify: false,
     sourcemap: true,
     outDir: 'dist',
     copyPublicDir: false,
