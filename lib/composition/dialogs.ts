@@ -1,5 +1,5 @@
 import { useTranslator } from '@juit/vue-i18n'
-import { Dialog } from 'quasar'
+import { useQuasar } from 'quasar'
 
 import { icons } from '../assets/icons'
 import { translations } from '../assets/translations'
@@ -62,6 +62,7 @@ export interface ZDialogs {
 
 export function useDialogs(): ZDialogs {
   const { t } = useTranslator()
+  const { dialog } = useQuasar()
 
   function confirm(options: {
     title: string,
@@ -74,12 +75,12 @@ export function useDialogs(): ZDialogs {
     cancelColor?: string,
   }): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      const dialog = Dialog.create({
+      const instance = dialog({
         component: JConfirmDialog,
         componentProps: { ...options },
       })
-      dialog.onOk(() => resolve(true))
-      dialog.onCancel(() => resolve(false))
+      instance.onOk(() => resolve(true))
+      instance.onCancel(() => resolve(false))
     })
   }
 
@@ -152,7 +153,7 @@ export function useDialogs(): ZDialogs {
     total?: number,
     onCancel?: () => void,
   }): { update: (progress: number) => void, done: () => void } {
-    const dialog = Dialog.create({
+    const instance = dialog({
       component: JProgressDialog,
       componentProps: {
         title: options.title,
@@ -164,8 +165,8 @@ export function useDialogs(): ZDialogs {
     })
 
     return {
-      update: (progress: number) => dialog.update({ progress }),
-      done: () => dialog.hide(),
+      update: (progress: number) => instance.update({ progress }),
+      done: () => instance.hide(),
     }
   }
 
