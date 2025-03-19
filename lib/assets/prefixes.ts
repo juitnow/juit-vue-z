@@ -1,8 +1,11 @@
+import { ISO_COUNTRIES } from '@juit/vue-i18n'
+
 import type { ISOCountry } from '@juit/vue-i18n'
 
 // Data from https://en.wikipedia.org/wiki/List_of_telephone_country_codes
 
-export const prefixes = {
+/** All known ITU prefixes keyed by ISO country */
+export const ituPrefixesByCountry = {
   AD: [ '376' ],
   AE: [ '971' ],
   AF: [ '93' ],
@@ -255,4 +258,22 @@ export const prefixes = {
   ZW: [ '263' ],
 } as const satisfies Record<ISOCountry, `${number}`[]>
 
-export type ITUPrefix = typeof prefixes[keyof typeof prefixes][number]
+/** Known ISO countries keyed by ITU prefixe. */
+export const countriesByITUPrefix: Record<ITUPrefix, [ ISOCountry, ...ISOCountry[] ]> =
+  Object.entries(ituPrefixesByCountry).reduce((map, [ key, prefixes ]) => {
+    // Check that we have a proper ISO country
+    const country = ISO_COUNTRIES.find((country) => country === key)
+    if (! country) return map
+
+    // Add the prefixes to the map
+    prefixes.forEach((prefix) => {
+      if (! map[prefix]) map[prefix] = [ country ]
+      else map[prefix].push(country)
+    })
+
+    // Ok, all mapped and normalized
+    return map
+  }, {} as typeof countriesByITUPrefix)
+
+/** All known ITU international prefixes */
+export type ITUPrefix = typeof ituPrefixesByCountry[ISOCountry][number]
