@@ -1,12 +1,14 @@
+import type { ISOCountry } from '@juit/vue-i18n'
+
 export const countries = {
   'AD': '+376',
   'AE': '+971',
   'AF': '+93',
-  'AG': '+1268',
+  'AG': '+1',
   'AI': '+1264',
   'AL': '+355',
   'AM': '+374',
-  'AN': '+599',
+  // 'AN': '+599',
   'AO': '+244',
   'AQ': '+672',
   'AR': '+54',
@@ -241,4 +243,14 @@ export const countries = {
   'ZA': '+27',
   'ZM': '+260',
   'ZW': '+263',
-} as const
+  // -====
+  'BQ': '+599', // Carribbean Netherlands
+  'BV': '+47', // Bouvet Island, uninhabited, but part of Norway
+  'CW': '+599', // Curaçao
+  'EH': '+212', // Western Sahara
+  'HM': '+672', // Heard Island and McDonald Islands
+  'SX': '+1', // Sint Maarten
+  'TF': '+262', // French Southern Territories
+  'UM': '+268', // United States Minor Outlying Islands
+  'XK': '+383', // Kosovo
+} satisfies Record<ISOCountry, `+${number}`> // as const
