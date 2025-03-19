@@ -20,6 +20,7 @@
 
     :debounce="debounce"
     :suffix="suffix"
+    :prefix="prefix"
 
     :required="required"
     :max-length="maxLength"
@@ -53,7 +54,7 @@ const _ztext = ref<InstanceType<typeof ZText>>()
 
 /* ===== NAME, PROPS, MODEL, EMITS, ... ===================================== */
 
-defineOptions({ name: 'ZString', inheritAttrs: false })
+defineOptions({ name: 'ZString' })
 
 const _props = defineProps({
 
@@ -111,6 +112,12 @@ const _props = defineProps({
     type: String as PropType<string>,
     required: false,
     default: '',
+  },
+  /** The prefix to add to the input */
+  prefix: {
+    type: String as PropType<string>,
+    required: false,
+    default: undefined,
   },
 
   /* ===== VALIDATION ======================================================= */

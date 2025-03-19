@@ -33,6 +33,7 @@ import type {
   ZTable,
   ZTag,
   ZTags,
+  ZTelephone,
   ZText,
 } from './index'
 
@@ -119,6 +120,8 @@ declare module 'vue' {
     ZString: ComponentConstructor<ZString>,
     /** Tags input */
     ZTags: ComponentConstructor<ZTags>,
+    /** Telephone input */
+    ZTelephone: ComponentConstructor<ZTelephone>,
     /** A simple text input (normally only used internally) */
     ZText: ComponentConstructor<ZText>,
 
