@@ -193,11 +193,6 @@ function _formatParts(parts: PhoneParts): string {
 
 /* ===== STATE ============================================================== */
 
-/** The parsed phone number parts, initially from the input value */
-const _parts = shallowRef<PhoneParts>(_checkNumber(_value.value))
-/** The input value, as displayed in our text box */
-const _input = ref<string>(_formatParts(_parts.value))
-
 /** Computed property ensuring that the country is a valid ISO country */
 const _isoCountry = computed<ISOCountry>(() => {
   const country = ISO_COUNTRIES.find((country) => country === _props.country)
@@ -210,10 +205,15 @@ const _flag = computed(() => {
   return '\u{1F3F4}\u200D\u2620\uFE0F' // Arrr! That be a bust!
 })
 
+/** The parsed phone number parts, initially from the input value */
+const _parts = shallowRef<PhoneParts>(_checkNumber(_value.value))
+/** The input value, as displayed in our text box */
+const _input = ref<string>(_formatParts(_parts.value))
+
+/* ===== WATCHERS =========================================================== */
+
 /* When the country prop changes, we update the number if empty */
 watch(_isoCountry, (country) => {
-  if (! country) return // Not a valid ISO country...
-
   // If this is a simple change of country on the same prefix, update the
   // country in-place and manually trigger the ref to update the flag
   if (_parts.value.countries.includes(country)) {
@@ -235,7 +235,7 @@ watch(_isoCountry, (country) => {
 watch(_value, (value) => {
   const parts = _checkNumber(value)
   if (parts.normalized === _parts.value.normalized) return // no changes
-  _input.value = parts.prefix ? `+${parts.prefix} ${parts.number}` : parts.normalized
+  _input.value = _formatParts(parts)
   _parts.value = parts
 })
 
