@@ -524,7 +524,7 @@
             :placeholder="placeholder ? '012345678' : ''"
             :hint="hint ? 'Use z-country above to change country' : undefined"
             :icon="icon ? 'sym_r_call' : undefined"
-            :lazy-rules="true"
+            :lazy-rules="lazyRules"
 
             :required="required"
             :readonly="readonly"
