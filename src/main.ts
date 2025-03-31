@@ -7,10 +7,10 @@ import '../lib/index.scss'
 // All remaining imports
 import '../lib/globals.d.ts'
 import { JuitWidgets } from '../lib/index'
-import App from './app.vue'
+import Inputs from './inputs.vue'
 
 // Create app
-const myApp = createApp(App)
+const myApp = createApp(Inputs)
 myApp.use(i18n, { defaultLanguage: 'en-US' })
 myApp.use(JuitWidgets, { plugins: { Notify } })
 myApp.mount('#app')

@@ -640,6 +640,11 @@ async function completions(text: string): Promise<ZOption[]> {
 </script>
 
 <style lang="postcss" scoped>
+.q-page-container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 h6 {
   margin-top: 1em;
   margin-bottom: 0;
