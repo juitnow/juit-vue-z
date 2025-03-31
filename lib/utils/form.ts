@@ -148,7 +148,8 @@ export function formReadyState(callback: () => boolean): void {
   const callbacks = inject<ShallowRef<Record<string, boolean>> | null>(_readyStateSymbol, null)
   if (! callbacks) return // not in a form
 
-  const key = window.crypto.randomUUID()
+  // crypto.randomUUID() is not available on Safari in insecure contexts (e.g. app development)
+  const key = btoa([ ...crypto.getRandomValues(new Uint8Array(15)) ].map((c) => String.fromCharCode(c)).join(''))
   const watcher = watch(callback, (ready) => {
     if (callbacks.value[key] === ready) return
     callbacks.value[key] = ready
