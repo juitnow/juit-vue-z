@@ -1,13 +1,8 @@
 <template>
-  <q-layout view="hHr LpR fFr">
-    <q-page-container>
-      <inputs />
-    </q-page-container>
-  </q-layout>
+  <inputs />
 </template>
 
 <script setup lang="ts">
-import { QLayout, QPageContainer } from 'quasar'
 
 import Inputs from './inputs.vue'
 </script>
