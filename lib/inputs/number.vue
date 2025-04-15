@@ -24,7 +24,11 @@
     :maximum="maximum"
 
     @update:model-value="_number = $event || 0"
-  />
+  >
+    <template v-if="_slots.append" #append="formProps">
+      <slot name="append" v-bind="formProps" />
+    </template>
+  </z-nullable-number>
 </template>
 
 <script setup lang="ts">
@@ -33,8 +37,9 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import { componentFormProps } from '../utils/form'
 import ZNullableNumber from './nullable-number.vue'
 
-import type { PropType } from 'vue'
+import type { PropType, VNode } from 'vue'
 import type { ZValidator } from '../composition/validators'
+import type { ZFormProps } from '../utils/form'
 
 /** Ref to our `ZNullableNumber` */
 const _znumber = ref<InstanceType<typeof ZNullableNumber>>()
@@ -113,6 +118,11 @@ const _number = defineModel({
   required: false,
   default: 0,
 })
+
+/* Slots */
+const _slots = defineSlots<{
+  append?: (formProps: Readonly<ZFormProps>) => VNode[]
+}>()
 
 /* Exposed stuff */
 defineExpose({
