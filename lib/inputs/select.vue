@@ -128,7 +128,7 @@ const _props = defineProps({
 
   /** All our options, keyed by the option, with values being the labels */
   options: {
-    type: Object as PropType<Record<string, string> | { value: string, label: string }[]>,
+    type: Object as PropType<Record<string, string> | { value: string, label: string }[] | string[]>,
     required: true,
   },
 
@@ -212,7 +212,9 @@ defineExpose({
 
 /** Convert options from a record to an array and sort */
 const _options = computed(() => {
-  if (Array.isArray(_props.options)) return _props.options
+  if (Array.isArray(_props.options)) {
+    return _props.options.map((value) => typeof value === 'string' ? { label: value, value } : value)
+  }
 
   return Object.entries(_props.options)
       .map(([ value, label ]) => ({ value, label }))
