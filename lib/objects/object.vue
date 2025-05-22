@@ -23,6 +23,9 @@
           size="sm"
           @click="_showJson = !_showJson"
         />
+
+        <!-- extra info buttons -->
+        <slot name="more-info" />
       </template>
 
       <!-- === BUTTONS WHEN EDITING ======================================== -->
@@ -285,6 +288,8 @@ const _slots = defineSlots<{
   'caption'?: () => VNode[],
   /** Extra buttons to add when not editing */
   'buttons'?: () => VNode[],
+  /** Additional content for the info section */
+  'more-info'?: () => VNode[],
   /** Extra controls to add before the main ones */
   'controls-before'?: () => VNode[],
   /** Extra controls to add after the main ones */
