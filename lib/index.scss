@@ -69,3 +69,13 @@ $dark-text: #fff !default;
 .bg-shade-warning  { background-color: var(--q-shade-warning) !important }
 .bg-tint           { background-color: var(--q-tint) !important }
 .bg-tint-primary   { background-color: var(--q-tint-primary) !important }
+
+.borders {
+  border-color: var(--q-border-color);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.fill-icon {
+  font-variation-settings: 'FILL' 1;
+}
