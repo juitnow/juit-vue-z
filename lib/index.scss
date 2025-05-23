@@ -57,7 +57,8 @@ $dark-text: #fff !default;
   }
 }
 
-/* Utility Classes */
+/* ==[ UTILITY CLASSES ]===================================================== */
+
 .text-page         { color: var(--q-text) !important }
 
 .bg-page           { background-color: var(--q-page) !important }
@@ -78,4 +79,91 @@ $dark-text: #fff !default;
 
 .fill-icon {
   font-variation-settings: 'FILL' 1;
+}
+
+/* ==[ COLUMNS SKIPPING ]==================================================== */
+
+/* NOTE: These behave exactly like "offset-..." classes in Quasar, but instead
+ * of adding a _left_ margin, they add a _right_ margin, pushing the _next_
+ * content to the right.
+ */
+
+@media (min-width: 0) {
+  .row > .skip-0, .row > .skip-xs-0 { margin-right: 0% }
+  .row > .skip-1, .row > .skip-xs-1 { margin-right: 8.3333% }
+  .row > .skip-2, .row > .skip-xs-2 { margin-right: 16.6667% }
+  .row > .skip-3, .row > .skip-xs-3 { margin-right: 25% }
+  .row > .skip-4, .row > .skip-xs-4 { margin-right: 33.3333% }
+  .row > .skip-5, .row > .skip-xs-5 { margin-right: 41.6667% }
+  .row > .skip-6, .row > .skip-xs-6 { margin-right: 50% }
+  .row > .skip-7, .row > .skip-xs-7 { margin-right: 58.3333% }
+  .row > .skip-8, .row > .skip-xs-8 { margin-right: 66.6667% }
+  .row > .skip-9, .row > .skip-xs-9 { margin-right: 75% }
+  .row > .skip-10, .row > .skip-xs-10 { margin-right: 83.3333% }
+  .row > .skip-11, .row > .skip-xs-11 { margin-right: 91.6667% }
+  .row > .skip-12, .row > .skip-xs-12 { margin-right: 100% }
+}
+
+@media (min-width: $breakpoint-sm-min) {
+  .row > .skip-sm-0 { margin-right: 0% }
+  .row > .skip-sm-1 { margin-right: 8.3333% }
+  .row > .skip-sm-2 { margin-right: 16.6667% }
+  .row > .skip-sm-3 { margin-right: 25% }
+  .row > .skip-sm-4 { margin-right: 33.3333% }
+  .row > .skip-sm-5 { margin-right: 41.6667% }
+  .row > .skip-sm-6 { margin-right: 50% }
+  .row > .skip-sm-7 { margin-right: 58.3333% }
+  .row > .skip-sm-8 { margin-right: 66.6667% }
+  .row > .skip-sm-9 { margin-right: 75% }
+  .row > .skip-sm-10 { margin-right: 83.3333% }
+  .row > .skip-sm-11 { margin-right: 91.6667% }
+  .row > .skip-sm-12 { margin-right: 100% }
+}
+
+@media (min-width: $breakpoint-md-min) {
+  .row > .skip-md-0 { margin-right: 0% }
+  .row > .skip-md-1 { margin-right: 8.3333% }
+  .row > .skip-md-2 { margin-right: 16.6667% }
+  .row > .skip-md-3 { margin-right: 25% }
+  .row > .skip-md-4 { margin-right: 33.3333% }
+  .row > .skip-md-5 { margin-right: 41.6667% }
+  .row > .skip-md-6 { margin-right: 50% }
+  .row > .skip-md-7 { margin-right: 58.3333% }
+  .row > .skip-md-8 { margin-right: 66.6667% }
+  .row > .skip-md-9 { margin-right: 75% }
+  .row > .skip-md-10 { margin-right: 83.3333% }
+  .row > .skip-md-11 { margin-right: 91.6667% }
+  .row > .skip-md-12 { margin-right: 100% }
+}
+
+@media (min-width: $breakpoint-lg-min) {
+  .row > .skip-lg-0 { margin-right: 0% }
+  .row > .skip-lg-1 { margin-right: 8.3333% }
+  .row > .skip-lg-2 { margin-right: 16.6667% }
+  .row > .skip-lg-3 { margin-right: 25% }
+  .row > .skip-lg-4 { margin-right: 33.3333% }
+  .row > .skip-lg-5 { margin-right: 41.6667% }
+  .row > .skip-lg-6 { margin-right: 50% }
+  .row > .skip-lg-7 { margin-right: 58.3333% }
+  .row > .skip-lg-8 { margin-right: 66.6667% }
+  .row > .skip-lg-9 { margin-right: 75% }
+  .row > .skip-lg-10 { margin-right: 83.3333% }
+  .row > .skip-lg-11 { margin-right: 91.6667% }
+  .row > .skip-lg-12 { margin-right: 100% }
+}
+
+@media (min-width: $breakpoint-xl-min) {
+  .row > .skip-xl-0 { margin-right: 0% }
+  .row > .skip-xl-1 { margin-right: 8.3333% }
+  .row > .skip-xl-2 { margin-right: 16.6667% }
+  .row > .skip-xl-3 { margin-right: 25% }
+  .row > .skip-xl-4 { margin-right: 33.3333% }
+  .row > .skip-xl-5 { margin-right: 41.6667% }
+  .row > .skip-xl-6 { margin-right: 50% }
+  .row > .skip-xl-7 { margin-right: 58.3333% }
+  .row > .skip-xl-8 { margin-right: 66.6667% }
+  .row > .skip-xl-9 { margin-right: 75% }
+  .row > .skip-xl-10 { margin-right: 83.3333% }
+  .row > .skip-xl-11 { margin-right: 91.6667% }
+  .row > .skip-xl-12 { margin-right: 100% }
 }
