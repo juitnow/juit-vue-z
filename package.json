@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "type": "module",
   "exports": {
     ".": {
@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "plug",
+    "build-demo": "plug tsc lint vite vite_config_file=vite.config.demo.ts",
     "dev": "vite -c vite.config.demo.ts"
   },
   "peerDependencies": {

@@ -109,13 +109,13 @@ const _props = defineProps({
     required: false,
     default: false,
   },
-  /** Minimum value (inclusive) > IN CENTS!!! */
+  /** Minimum value (inclusive, **_in cents_**) */
   minimum: {
     type: Number as PropType<number | undefined>,
     required: false,
     default: undefined,
   },
-  /** Maximum value (inclusive) > IN CENTS!!! */
+  /** Maximum value (inclusive, **_in cent_s**) */
   maximum: {
     type: Number as PropType<number | undefined>,
     required: false,

@@ -9,6 +9,8 @@ how we built it.
 It is heavily reliant on the [Quasar Framework](https://quasar.dev/) and our
 [I18n Library](https://www.npmjs.com/package/@juit/vue-i18n).
 
+And here is a little [demo](https://juitnow.github.io/juit-vue-z/).
+
 * [License](LICENSE.md)
 * [Copyright Notice](NOTICE.md)
 
