@@ -8,6 +8,8 @@ import type { ReportLevel } from '@plugjs/plug/logging'
 import type { RollupError } from 'rollup'
 
 export default plugjs({
+  vite_config_file: 'vite.config.ts',
+
   async vite(): Promise<Files> {
     banner('Building with Vite')
 
@@ -15,7 +17,7 @@ export default plugjs({
     const warnings = new Set<string>()
 
     const builder = await vite.createBuilder({
-      configFile: resolve('vite.config.ts'),
+      configFile: resolve(this.vite_config_file),
 
       clearScreen: false,
 
