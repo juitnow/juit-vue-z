@@ -16,6 +16,7 @@ import type {
   ZDateRange,
   ZDialog,
   ZEan13,
+  ZEuro,
   ZForm,
   ZFormHelper,
   ZHeader,
@@ -110,6 +111,8 @@ declare module 'vue' {
     ZNullableNumber: ComponentConstructor<ZNullableNumber>,
     /** Number input */
     ZNumber: ComponentConstructor<ZNumber>,
+    /** Euro input */
+    ZEuro: ComponentConstructor<ZEuro>,
     /** Password input */
     ZPassword: ComponentConstructor<ZPassword>,
     /** Picker input */

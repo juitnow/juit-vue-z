@@ -27,6 +27,7 @@ import ZCountry from './inputs/country.vue'
 import ZDateRange from './inputs/date-range.vue'
 import ZDate from './inputs/date.vue'
 import ZEan13 from './inputs/ean13.vue'
+import ZEuro from './inputs/euro.vue'
 import ZLabel from './inputs/label.vue'
 import ZNullableNumber from './inputs/nullable-number.vue'
 import ZNumber from './inputs/number.vue'
@@ -90,6 +91,7 @@ export type ZCountry = InstanceType<typeof ZCountry>
 export type ZDate = InstanceType<typeof ZDate>
 export type ZDateRange = InstanceType<typeof ZDateRange>
 export type ZEan13 = InstanceType<typeof ZEan13>
+export type ZEuro = InstanceType<typeof ZEuro>
 export type ZLabel = InstanceType<typeof ZLabel>
 export type ZNullableNumber = InstanceType<typeof ZNullableNumber>
 export type ZNumber = InstanceType<typeof ZNumber>
@@ -168,6 +170,7 @@ export function JuitWidgets(app: App, quasarConfig: QuasarPluginOptions = {}): v
   app.component('ZDate', ZDate)
   app.component('ZDateRange', ZDateRange)
   app.component('ZEan13', ZEan13)
+  app.component('ZEuro', ZEuro)
   app.component('ZLabel', ZLabel)
   app.component('ZNullableNumber', ZNullableNumber)
   app.component('ZNumber', ZNumber)

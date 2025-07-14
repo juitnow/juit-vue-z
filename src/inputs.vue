@@ -65,6 +65,16 @@
           </div>
 
           <div class="col-6 col-sm-4 col-md-3 column">
+            <h6>Locale</h6>
+            <z-btn
+              class="q-my-xs"
+              color="primary"
+              :label="`Switch Locale to ${nextLocale}`"
+              @click="switchLocale()"
+            />
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-3 column">
             <h6>Dialog</h6>
             <z-btn
               class="q-my-xs"
@@ -287,6 +297,31 @@
               />
               <div class="col-6">
                 {{ JSON.stringify(nullableNumber) }}
+              </div>
+            </div>
+          </div>
+
+          <h6>Euro</h6>
+          <div class="bg-shade borders rounded-borders q-pa-sm ">
+            <div class="row q-col-gutter-md items-center">
+              <z-euro
+                v-model="euro"
+                class="col-6"
+
+                :label="label ? 'Label' : ''"
+                :placeholder="placeholder ? 'Placeholder' : ''"
+                :hint="hint ? 'Hint' : undefined"
+                :icon="icon ? 'sym_r_search' : undefined"
+
+                :suffix="suffix ? ' EUR' : undefined"
+                :minimum="minLength ? 100 : undefined"
+                :maximum="maxLength ? 25000 : undefined"
+
+                :required="required"
+                :readonly="readonly"
+              />
+              <div class="col-6">
+                {{ JSON.stringify(euro) }} cents
               </div>
             </div>
           </div>
@@ -565,14 +600,16 @@
 </template>
 
 <script setup lang="ts">
+import { useTranslator } from '@juit/vue-i18n'
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useDialogs } from '../lib'
 
 import type { ZAddressData, ZDateRangeData, ZDialog, ZForm, ZOption, ZPicker } from '../lib'
 
 const _dialogs = useDialogs()
+const translator = useTranslator()
 const { notify } = useQuasar()
 
 const form = ref<ZForm>()
@@ -613,6 +650,7 @@ const string = ref('')
 const password = ref('')
 const number = ref(0)
 const nullableNumber = ref<number | null>(null)
+const euro = ref(0)
 const barcode = ref('')
 const tags = ref<string[]>([])
 const selected = ref('')
@@ -635,6 +673,12 @@ async function completions(text: string): Promise<ZOption[]> {
     { value: 'bar', label: text + 'Bar' },
     { value: 'baz', label: text + 'Baz' },
   ]
+}
+
+const nextLocale = computed(() => new Intl.Locale(translator.language === 'en' ? 'de-DE' : 'en-US'))
+
+function switchLocale(): void {
+  translator.locale = nextLocale.value
 }
 
 </script>
