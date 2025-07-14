@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "type": "module",
   "exports": {
     ".": {
@@ -14,7 +14,7 @@
     "dev": "vite -c vite.config.demo.ts"
   },
   "peerDependencies": {
-    "@juit/vue-i18n": "^0.2.21",
+    "@juit/vue-i18n": "^0.2.25",
     "@quasar/extras": "^1.17.0",
     "quasar": "^2.18.1",
     "vue": "^3.5.17",
@@ -22,19 +22,25 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.8",
-    "@plugjs/eslint": "^0.6.52",
-    "@plugjs/eslint-plugin": "^0.3.29",
-    "@plugjs/plug": "^0.6.52",
+    "@plugjs/eslint": "^0.6.58",
+    "@plugjs/eslint-plugin": "^0.3.32",
+    "@plugjs/plug": "^0.6.58",
     "@quasar/vite-plugin": "^1.9.0",
     "@types/google.maps": "^3.58.1",
     "@types/node": "<21",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "eslint-plugin-vue": "^10.2.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "eslint-plugin-vue": "^10.3.0",
     "sass-embedded": "^1.89.2",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
+    "vite": "^7.0.4",
     "vue": "^3.5.17",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^3.0.1"
+  },
+  "overrides": {
+    "@quasar/vite-plugin": {
+      "@vitejs/plugin-vue": "$@vitejs/plugin-vue",
+      "vite": "$vite"
+    }
   },
   "author": "Juit Developers <developers@juit.com>",
   "license": "Apache-2.0",

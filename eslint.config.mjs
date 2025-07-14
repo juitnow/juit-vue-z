@@ -82,6 +82,7 @@ export default [
   {
     name: 'local/ignores',
     ignores: [
+      'build/',
       'dist/',
       'demo/',
       'public/',
