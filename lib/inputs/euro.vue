@@ -36,16 +36,15 @@
 import { useTranslator } from '@juit/vue-i18n'
 import { computed, onMounted, ref, useAttrs, watch } from 'vue'
 
-import { useValidators } from '../composition/validators'
 import { componentFormProps } from '../utils/form'
 import ZText from './text.vue'
 
 import type { PropType, VNode } from 'vue'
 import type { ZValidator } from '../composition/validators'
 import type { ZFormProps } from '../utils/form'
-
-const validators = useValidators()
 const translator = useTranslator()
+
+const { t } = useTranslator()
 
 /** Ref to our `ZText` */
 const _ztext = ref<InstanceType<typeof ZText>>()
@@ -110,13 +109,13 @@ const _props = defineProps({
     required: false,
     default: false,
   },
-  /** Minimum value (inclusive) */
+  /** Minimum value (inclusive) > IN CENTS!!! */
   minimum: {
     type: Number as PropType<number | undefined>,
     required: false,
     default: undefined,
   },
-  /** Maximum value (inclusive) */
+  /** Maximum value (inclusive) > IN CENTS!!! */
   maximum: {
     type: Number as PropType<number | undefined>,
     required: false,
@@ -169,8 +168,27 @@ const _rules = computed<ZValidator<string>[]>(() => {
   ]
 
   // Minimum and maximum values
-  if (_props.minimum !== undefined) rules.push(validators.minimum(_props.minimum))
-  if (_props.maximum !== undefined) rules.push(validators.maximum(_props.maximum))
+  // We use our own rules, since the min/max value is in cents, but we want the error message in €
+  if (_props.minimum !== undefined) {
+    rules.push(
+        (value: number) => {
+          if (value >= _props.minimum!) return true
+          return t({
+            en: `Minimum ${_props.minimum! / 100} €`,
+            de: `Mindestens ${_props.minimum! / 100} €`,
+          })
+        })
+  }
+  if (_props.maximum !== undefined) {
+    rules.push(
+        (value: number) => {
+          if (value <= _props.maximum!) return true
+          return t({
+            en: `Maximum ${_props.maximum! / 100} €`,
+            de: `Höchstens ${_props.maximum! / 100} €`,
+          })
+        })
+  }
 
   // All other rules
   rules.push(..._props.rules)

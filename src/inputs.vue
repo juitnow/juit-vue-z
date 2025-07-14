@@ -304,8 +304,8 @@
                 :icon="icon ? 'sym_r_search' : undefined"
 
                 :suffix="suffix ? ' €' : undefined"
-                :minimum="minLength ? 1 : undefined"
-                :maximum="maxLength ? 250 : undefined"
+                :minimum="minLength ? 100 : undefined"
+                :maximum="maxLength ? 25000 : undefined"
 
                 :required="required"
                 :readonly="readonly"
