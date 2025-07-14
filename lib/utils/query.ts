@@ -13,13 +13,13 @@ export type ZQueryReactiveValue = string | number | boolean
 export type ZQueryReactiveObject = Record<string, ZQueryReactiveValue | undefined>
 
 /** Default for T: either a primitive or a function producing one */
-export type ZQueryReactiveDefault<T extends ZQueryReactiveValue> = T | undefined
-  | ((state: Readonly<ZQueryReactiveObject>) => T | undefined)
+export type ZQueryReactiveDefault<T extends ZQueryReactiveValue> = T | undefined |
+  ((state: Readonly<ZQueryReactiveObject>) => T | undefined)
 
 /** Simple definition for a reactive property */
 export type ZQueryReactiveDef<T extends ZQueryReactiveValue = ZQueryReactiveValue> =
-  | { type: PropType<T>, default?: ZQueryReactiveDefault<T>, useRoute?: boolean }
-  | ( PropType<T> & { type?: never, default?: never, useRoute?: never } )
+  { type: PropType<T>, default?: ZQueryReactiveDefault<T>, useRoute?: boolean } |
+  ( PropType<T> & { type?: never, default?: never, useRoute?: never } )
 
 /**
  * Definition for a reactive object that can be bound to the router query.
@@ -50,26 +50,26 @@ type InferDef<T extends ZQueryReactiveDef> =
     //
     R extends boolean ? boolean : //         / if it's a boolean, return a boolean
     //
-    T['default'] extends () => infer X ? //  / if default is a function infer the return type
-      undefined extends X ?
+      T['default'] extends () => infer X ? //  / if default is a function infer the return type
+        undefined extends X ?
         R | undefined : //                   / if the return type can be undefined
-        R : //                               / then the value can be undefined too
-      undefined extends T['default'] ?
+          R : //                               / then the value can be undefined too
+        undefined extends T['default'] ?
         R | undefined : //                   / the same for when the default is a value
-        R : //                               / if default can be undefined, then...
+          R : //                               / if default can be undefined, then...
   //
-  T extends PropType<infer R> ? //           / this is not a "typed" definition
-    R extends boolean ? boolean : //         / if it's a boolean, return a boolean
+    T extends PropType<infer R> ? //           / this is not a "typed" definition
+      R extends boolean ? boolean : //         / if it's a boolean, return a boolean
       R | undefined : //                     / otherwise, return the type or undefined
-  //
-  never //                                   / not accepting anything else
+    //
+      never //                                   / not accepting anything else
 
 /** Infer all our definitions */
 type InferDefs<T extends ZQueryReactiveDefs> = {
   [ K in keyof T ]:
-    T[K]['type'] extends PropType<any> ? InferDef<T[K]> : // typed definition
+  T[K]['type'] extends PropType<any> ? InferDef<T[K]> : // typed definition
     T[K] extends PropType<any> ? InferDef<T[K]> : //      // simple constructor
-    never //                                              // nothing else!
+      never //                                              // nothing else!
 }
 
 /* ===== INTERNAL FUNCTIONS ================================================= */
