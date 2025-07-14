@@ -98,7 +98,7 @@ const _props = defineProps({
   suffix: {
     type: String as PropType<string>,
     required: false,
-    default: '',
+    default: ' \u20ac',
   },
 
   /* ===== VALIDATION ======================================================= */
@@ -269,11 +269,11 @@ function _formatNumber(number: number): string {
 function _parseNumber(string: string): number {
   // Normalize our input into a JavaScript value (de: 1.234,5 becomes 1234.5)
   string = string
-  // remove thousands separator
+      // remove thousands separator
       .replaceAll(tsep.value, '')
-  // use dot as decimal separator
+      // use dot as decimal separator
       .replaceAll(dsep.value, '.')
-  // remove everything that is not a digit or a dot
+      // remove everything that is not a digit or a dot
       .replaceAll(/[^-.\d]/g, '')
 
   // Parse the string as a float number:
