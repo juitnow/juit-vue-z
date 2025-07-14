@@ -291,6 +291,31 @@
             </div>
           </div>
 
+          <h6>Euro</h6>
+          <div class="bg-shade borders rounded-borders q-pa-sm ">
+            <div class="row q-col-gutter-md items-center">
+              <z-euro
+                v-model="euro"
+                class="col-6"
+
+                :label="label ? 'Label' : ''"
+                :placeholder="placeholder ? 'Placeholder' : ''"
+                :hint="hint ? 'Hint' : undefined"
+                :icon="icon ? 'sym_r_search' : undefined"
+
+                :suffix="suffix ? ' €' : undefined"
+                :minimum="minLength ? 1 : undefined"
+                :maximum="maxLength ? 250 : undefined"
+
+                :required="required"
+                :readonly="readonly"
+              />
+              <div class="col-6">
+                {{ JSON.stringify(euro) }} cents
+              </div>
+            </div>
+          </div>
+
           <h6>EAN 13</h6>
           <div class="bg-shade borders rounded-borders q-pa-sm ">
             <div class="row q-col-gutter-md items-center">
@@ -613,6 +638,7 @@ const string = ref('')
 const password = ref('')
 const number = ref(0)
 const nullableNumber = ref<number | null>(null)
+const euro = ref(0)
 const barcode = ref('')
 const tags = ref<string[]>([])
 const selected = ref('')
