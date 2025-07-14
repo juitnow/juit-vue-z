@@ -65,6 +65,16 @@
           </div>
 
           <div class="col-6 col-sm-4 col-md-3 column">
+            <h6>Locale</h6>
+            <z-btn
+              class="q-my-xs"
+              color="primary"
+              :label="`Switch Locale to ${nextLocale}`"
+              @click="switchLocale()"
+            />
+          </div>
+
+          <div class="col-6 col-sm-4 col-md-3 column">
             <h6>Dialog</h6>
             <z-btn
               class="q-my-xs"
@@ -303,7 +313,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
-                :suffix="suffix ? ' €' : undefined"
+                :suffix="suffix ? ' EUR' : undefined"
                 :minimum="minLength ? 100 : undefined"
                 :maximum="maxLength ? 25000 : undefined"
 
@@ -590,14 +600,16 @@
 </template>
 
 <script setup lang="ts">
+import { useTranslator } from '@juit/vue-i18n'
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useDialogs } from '../lib'
 
 import type { ZAddressData, ZDateRangeData, ZDialog, ZForm, ZOption, ZPicker } from '../lib'
 
 const _dialogs = useDialogs()
+const translator = useTranslator()
 const { notify } = useQuasar()
 
 const form = ref<ZForm>()
@@ -661,6 +673,12 @@ async function completions(text: string): Promise<ZOption[]> {
     { value: 'bar', label: text + 'Bar' },
     { value: 'baz', label: text + 'Baz' },
   ]
+}
+
+const nextLocale = computed(() => new Intl.Locale(translator.language === 'en' ? 'de-DE' : 'en-US'))
+
+function switchLocale(): void {
+  translator.locale = nextLocale.value
 }
 
 </script>
