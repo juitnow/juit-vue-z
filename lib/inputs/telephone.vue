@@ -186,9 +186,9 @@ function _checkNumber(value: string = ''): PhoneParts {
 /** Format the "parts" separating any valid prefix from the number */
 function _formatParts(parts: PhoneParts): string {
   return (parts.prefix && parts.number) ? `+${parts.prefix} ${parts.number}` :
-         parts.prefix ? `+${parts.prefix}` :
-         parts.number ? `+${parts.number}` :
-        ''
+    parts.prefix ? `+${parts.prefix}` :
+    parts.number ? `+${parts.number}` :
+    ''
 }
 
 /* ===== STATE ============================================================== */

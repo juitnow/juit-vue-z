@@ -57,8 +57,8 @@ const _cleanProps = computed(() => ({
 defineExpose({
   focus: () => _qform.value?.focus(),
   validate: (shouldFocus?: boolean | undefined) => _qform.value ?
-      _qform.value.validate(shouldFocus) :
-      Promise.reject(new Error(('No QForm'))),
+    _qform.value.validate(shouldFocus) :
+    Promise.reject(new Error(('No QForm'))),
   resetValidation: () => _qform.value?.resetValidation(),
   submit: () => _qform.value?.submit(),
   reset: () => _qform.value?.reset(),

@@ -139,8 +139,8 @@ const _value = computed(() => {
 
   if (typeof _props.value === 'boolean') {
     return _props.value ?
-        t({ en: 'True', de: 'Wahr' }) :
-        t({ en: 'False', de: 'Falsch' })
+      t({ en: 'True', de: 'Wahr' }) :
+      t({ en: 'False', de: 'Falsch' })
   }
 
   if (typeof _props.value === 'number') {

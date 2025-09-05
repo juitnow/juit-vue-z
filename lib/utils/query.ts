@@ -13,13 +13,13 @@ export type ZQueryReactiveValue = string | number | boolean
 export type ZQueryReactiveObject = Record<string, ZQueryReactiveValue | undefined>
 
 /** Default for T: either a primitive or a function producing one */
-export type ZQueryReactiveDefault<T extends ZQueryReactiveValue> = T | undefined |
-  ((state: Readonly<ZQueryReactiveObject>) => T | undefined)
+export type ZQueryReactiveDefault<T extends ZQueryReactiveValue> = T | undefined
+  | ((state: Readonly<ZQueryReactiveObject>) => T | undefined)
 
 /** Simple definition for a reactive property */
 export type ZQueryReactiveDef<T extends ZQueryReactiveValue = ZQueryReactiveValue> =
-  { type: PropType<T>, default?: ZQueryReactiveDefault<T>, useRoute?: boolean } |
-  ( PropType<T> & { type?: never, default?: never, useRoute?: never } )
+  { type: PropType<T>, default?: ZQueryReactiveDefault<T>, useRoute?: boolean }
+  | ( PropType<T> & { type?: never, default?: never, useRoute?: never } )
 
 /**
  * Definition for a reactive object that can be bound to the router query.
@@ -50,13 +50,13 @@ type InferDef<T extends ZQueryReactiveDef> =
     //
     R extends boolean ? boolean : //         / if it's a boolean, return a boolean
     //
-      T['default'] extends () => infer X ? //  / if default is a function infer the return type
-        undefined extends X ?
+    T['default'] extends () => infer X ? //  / if default is a function infer the return type
+      undefined extends X ?
         R | undefined : //                   / if the return type can be undefined
-          R : //                               / then the value can be undefined too
-        undefined extends T['default'] ?
+        R : //                               / then the value can be undefined too
+      undefined extends T['default'] ?
         R | undefined : //                   / the same for when the default is a value
-          R : //                               / if default can be undefined, then...
+        R : //                               / if default can be undefined, then...
   //
     T extends PropType<infer R> ? //           / this is not a "typed" definition
       R extends boolean ? boolean : //         / if it's a boolean, return a boolean
@@ -68,8 +68,8 @@ type InferDef<T extends ZQueryReactiveDef> =
 type InferDefs<T extends ZQueryReactiveDefs> = {
   [ K in keyof T ]:
   T[K]['type'] extends PropType<any> ? InferDef<T[K]> : // typed definition
-    T[K] extends PropType<any> ? InferDef<T[K]> : //      // simple constructor
-      never //                                              // nothing else!
+  T[K] extends PropType<any> ? InferDef<T[K]> : //      // simple constructor
+  never //                                              // nothing else!
 }
 
 /* ===== INTERNAL FUNCTIONS ================================================= */
@@ -80,8 +80,8 @@ function getDefaultValueFor<T extends ZQueryReactiveValue>(
     state: ZQueryReactiveObject,
 ): T | undefined {
   const value = typeof def.default === 'function' ?
-      def.default({ ...state }) :
-      def.default
+    def.default({ ...state }) :
+    def.default
   if (def.type === Boolean) return (value || false) as T
   return value as T
 }
@@ -165,11 +165,11 @@ export function createBoundObject<T extends ZQueryReactiveDefs>(
       // represents this value with "null" (not "undefined")
       if (def.type === Boolean) {
         const value = string === null ? true : //     "?value&"
-                      string === 'true' ? true : //   "?value=t&"
-                      string === 't' ? true : //      "?value=true&"
-                      string === 'false' ? false : // "?value=f&"
-                      string === 'f' ? false : //     "?value=false&"
-                      (defaultValue || false) // anything else is default
+          string === 'true' ? true : //   "?value=t&"
+          string === 't' ? true : //      "?value=true&"
+          string === 'false' ? false : // "?value=f&"
+          string === 'f' ? false : //     "?value=false&"
+          (defaultValue || false) // anything else is default
         if (object[key] !== value) object[key] = value
         continue
       }
@@ -196,13 +196,13 @@ export function createBoundObject<T extends ZQueryReactiveDefs>(
       // undefineds are omitted, and the default value is also omitted
       if ((def.type === String) || (def.type === Number)) {
         value = object[key] === defaultValue ? undefined : // default values are omitted
-                object[key] === '' ? undefined : // empty strings (but not zeroes!!!) are omitted
-                object[key] === undefined ? undefined : // undefineds are omitted
-                object[key] === null ? undefined : // nulls are omitted
-                String(object[key]) // everything else is converted to string
+          object[key] === '' ? undefined : // empty strings (but not zeroes!!!) are omitted
+          object[key] === undefined ? undefined : // undefineds are omitted
+          object[key] === null ? undefined : // nulls are omitted
+          String(object[key]) // everything else is converted to string
       } else if (def.type === Boolean) {
         value = object[key] === defaultValue ? undefined : // default values are omitted
-                object[key] ? null : 'f' // true is "null" (short form), false is "f"
+          object[key] ? null : 'f' // true is "null" (short form), false is "f"
       }
 
       // if the value is *exactly* the same as the query, we can skip
