@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "type": "module",
   "exports": {
     ".": {
@@ -15,7 +15,7 @@
     "dev": "vite -c vite.config.demo.ts"
   },
   "peerDependencies": {
-    "@juit/vue-i18n": "^0.2.29",
+    "@juit/vue-i18n": "^0.2.30",
     "@quasar/extras": "^1.17.0",
     "quasar": "^2.18.5",
     "vue": "^3.5.22",
@@ -35,7 +35,7 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
     "vue": "^3.5.22",
-    "vue-tsc": "^3.0.8"
+    "vue-tsc": "^3.1.0"
   },
   "overrides": {
     "@quasar/vite-plugin": {
