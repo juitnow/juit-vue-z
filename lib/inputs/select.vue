@@ -77,14 +77,11 @@
           <slot v-if="_slots.append" name="append" v-bind="formProps" />
         </template>
 
-        <!-- When specified, use the "option" slot from the caller -->
-        <template v-if="_slots.option" #option="scope">
-          <slot name="option" v-bind="scope" />
-        </template>
+        <template #option="scope">
+          <!-- When specified, use the "option" slot from the caller -->
+          <slot v-if="_slots.option" name="option" v-bind="scope" />
 
-        <!-- The default option template, dense -->
-        <template v-else #option="scope">
-          <q-item v-bind="scope.itemProps" dense>
+          <q-item v-else v-bind="scope.itemProps" dense>
             <q-item-section>
               <q-item-label>
                 {{ scope.label }}
