@@ -135,10 +135,10 @@ const _localized = computed(() => {
   if (! _value.value) return ''
 
   if (_value.value.from === _value.value.to) {
-    return d(_value.value.from, _props.format, 'UTC')
+    return d(_value.value.from, _props.format)
   } else {
-    const from = d(_value.value.from, _props.format, 'UTC')
-    const to = d(_value.value.to, _props.format, 'UTC')
+    const from = d(_value.value.from, _props.format)
+    const to = d(_value.value.to, _props.format)
     return `${from} - ${to}`
   }
 })
