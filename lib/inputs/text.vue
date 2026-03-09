@@ -65,7 +65,7 @@
             />
 
             <q-icon
-              v-else-if="_onClear"
+              v-else-if="clearable && _onClear"
               :name="icons.cancel"
               class="z-icon z-icon-clickable"
               @click="_onClear"
@@ -286,6 +286,15 @@ const _props = defineProps({
     type: Array as PropType<ValidationRule<string>[]>,
     required: false,
     default: () => [],
+  },
+
+  /* ===== UTILITY PROPS ==================================================== */
+
+  /** Indicates that the field can be cleared */
+  clearable: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 
   /* ===== EMITS AS PROPS =================================================== */
