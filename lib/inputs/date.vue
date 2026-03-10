@@ -130,7 +130,7 @@ const _value = defineModel({
 })
 
 /** The localized value to display */
-const _localized = computed(() => d(_value.value, _props.format))
+const _localized = computed(() => d(_value.value, _props.format, 'UTC'))
 
 /* ===== POPUP MANAGEMENT =================================================== */
 
