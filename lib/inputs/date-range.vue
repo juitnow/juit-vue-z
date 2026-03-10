@@ -12,6 +12,7 @@
     :editable="editable"
     :disabled="disabled"
     :readonly="readonly"
+    :clearable="!!clearable"
 
     :required="required"
     :on-clear="_onClear"

@@ -44,6 +44,14 @@
         @keydown="_onKeydown"
       >
         <template #append>
+          <!-- First icon: clearable (opt) -->
+          <q-icon
+            v-if="clearable"
+            :name="icons.cancel"
+            class="z-icon z-icon-clickable"
+            @click="_value = []"
+          />
+          <!-- Second icon: from the parent -->
           <q-icon :name="icon" class="z-icon" />
         </template>
 
@@ -126,6 +134,15 @@ const _props = defineProps({
   },
   /** We don‘t accept new values, but only the existing ones (passed as tags) */
   noNewValues: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+
+  /* ===== UTILITY PROPS ==================================================== */
+
+  /** Indicates that the field can be cleared */
+  clearable: {
     type: Boolean,
     required: false,
     default: false,

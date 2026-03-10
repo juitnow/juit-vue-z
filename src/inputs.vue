@@ -192,8 +192,10 @@
 
                 :max-length="maxLength ? 30 : undefined"
                 :suffix="suffix ? 'suffix' : undefined"
+
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
 
                 :on-clear="clearable ? () => string = '' : undefined"
                 :on-click="clickable ? () => warn('Clicked') : undefined"
@@ -222,6 +224,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(string) }}
@@ -245,6 +248,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(password) }}
@@ -269,6 +273,7 @@
                 :maximum="maxLength ? 20 : undefined"
 
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(number) }}
@@ -294,6 +299,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(nullableNumber) }}
@@ -319,6 +325,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(euro) }} cents
@@ -340,6 +347,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(barcode) }}
@@ -362,6 +370,7 @@
                 :tags="[ 'foo', 'bar', 'baz', 'zzza', 'yyya', 'xxxa', 'qqqa' ]"
 
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(tags) }}
@@ -381,7 +390,6 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
-                :clearable="clearable"
                 :options="{
                   foo: 'This is Foo',
                   bar: 'And this is Bar',
@@ -390,6 +398,7 @@
 
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
               />
               <div class="col-6">
                 {{ JSON.stringify(selected) }}
@@ -409,9 +418,9 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
-                :clearable="clearable ? required ? 'today' : true : false"
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable ? required ? 'today' : true : false"
               />
               <div class="col-6">
                 {{ JSON.stringify(date) }}
@@ -431,9 +440,9 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
-                :clearable="clearable ? required ? 'today' : true : false"
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable ? required ? 'today' : true : false"
               />
               <div class="col-6">
                 {{ JSON.stringify(dateRange) }}
@@ -457,9 +466,11 @@
                 icon="sym_r_search"
                 :link="clickable ? { name: 'Home' } : undefined"
 
-                :on-clear="clearable ? () => picked = null : undefined"
                 :required="required"
                 :readonly="readonly"
+                :clearable="clearable"
+
+                :on-clear="clearable ? () => picked = null : undefined"
                 @ok="picked = $event"
               >
                 <div class="row q-col-gutter-md">
@@ -507,10 +518,11 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :max-length="maxLength ? 30 : undefined"
+
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable"
-                :max-length="maxLength ? 30 : undefined"
 
                 @autocomplete="completions"
                 @selected="warn(`Autocompleted '${$event.value}' => '${$event.label}'`)"
@@ -533,11 +545,12 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :max-length="maxLength ? 30 : undefined"
+                :region="country"
+
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable"
-                :max-length="maxLength ? 30 : undefined"
-                :region="country"
 
                 @address="warn('Address selected'), address = $event, country = $event.country"
               />
@@ -582,11 +595,11 @@
                 :icon="icon ? 'sym_r_call' : undefined"
                 :lazy-rules="lazyRules"
 
+                :country="country"
+
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable"
-
-                :country="country"
               />
               <div class="col-6">
                 {{ JSON.stringify(telephone) }}

@@ -15,6 +15,7 @@
     :editable="editable"
     :disabled="disabled"
     :readonly="readonly"
+    :clearable="clearable"
 
     :rules="_rules"
     :lazy-rules="lazyRules"
@@ -120,6 +121,15 @@ const _props = defineProps({
     type: Array as PropType<ZValidator<string>[]>,
     required: false,
     default: () => [],
+  },
+
+  /* ===== UTILITY PROPS ==================================================== */
+
+  /** Indicates that the field can be cleared */
+  clearable: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 
   ...componentFormProps,

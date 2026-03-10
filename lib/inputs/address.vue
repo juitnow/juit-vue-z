@@ -153,53 +153,57 @@ defineExpose({
 type AddressToken = { value: string, type: 'match' | 'miss' | 'secondary' }
 type AddressPrediction = ZOption & { tokens: AddressToken[] }
 
-let _googleService: google.maps.places.AutocompleteService | undefined = undefined
-
 async function _predictAddress(value: string): Promise<{ value: string, label: string }[]> {
-  if (! _googleService) {
-    if (! globalThis.google?.maps?.places?.AutocompleteService) {
-      throw new Error('Google Maps AutocompleteService not available')
-    }
-    _googleService = new google.maps.places.AutocompleteService()
+  if (! globalThis.google?.maps?.places?.AutocompleteSuggestion) {
+    throw new Error('Google Maps AutocompleteSuggestion not available')
   }
 
   if (! value) return [] // should never happen, but still
 
+  const { AutocompleteSuggestion: _AutocompleteSuggestion } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary
+
   // Prepare our request
   const request = {
     input: value,
-    types: [ 'address' ],
-    region: _props.region,
     language: locale.toString(),
-  } satisfies google.maps.places.AutocompletionRequest
+    // restrict autocomplete to generic address-like results, excluding POIs
+    includedPrimaryTypes: [ 'street_address', 'route', 'premise', 'subpremise' ],
+    // restrict results to the current country or specified region
+    region: _props.region || undefined,
+  } satisfies google.maps.places.AutocompleteRequest
 
   // Get place predictions from Google
-  const response = await _googleService.getPlacePredictions(request)
+  const response = await _AutocompleteSuggestion.fetchAutocompleteSuggestions(request)
 
   // Process predictions and extract tokens
   const predictions: AddressPrediction[] = []
-  for (const prediction of response.predictions) {
+  for (const suggestion of response.suggestions) {
+    const prediction = suggestion.placePrediction
+    if (!prediction) continue
+
+    // remove establishments and points of interest
+    if (prediction.types.includes('establishment') || prediction.types.includes('point_of_interest')) continue
+
+    // build the predicted addresses
+    const placeId = prediction.placeId
+    if (!placeId) continue
+    const mainText = prediction.mainText?.toString() || prediction.text?.toString() || ''
+    const secondary = prediction.secondaryText?.toString() || ''
+
     const current: AddressPrediction = {
-      value: prediction.place_id,
-      label: prediction.description,
+      value: placeId,
+      label: prediction.text?.toString() || '',
       tokens: [],
     }
 
-    let pos = 0
-    for (const subs of prediction.structured_formatting.main_text_matched_substrings) {
-      const off = subs.offset
-      const end = subs.offset + subs.length
-      const miss = prediction.structured_formatting.main_text.slice(pos, off)
-      const match = prediction.structured_formatting.main_text.slice(off, end)
-      if (miss) current.tokens.push({ value: miss, type: 'miss' })
-      if (match) current.tokens.push({ value: match, type: 'match' })
-      pos = end
+    // the main part of the address (street name)
+    if (mainText) {
+      // the part of the street name that matches the string input by the user > will be displayed in bold
+      current.tokens.push({ value: mainText.slice(0, value.length), type: 'match' })
+      // the rest of the street name
+      current.tokens.push({ value: mainText.slice(value.length), type: 'miss' })
     }
-
-    const miss = prediction.structured_formatting.main_text.slice(pos)
-    const secondary = prediction.structured_formatting.secondary_text
-
-    if (miss) current.tokens.push({ value: miss, type: 'miss' })
+    // the secondary part (neighborhood, city, country) > will be displayed in smaller font
     if (secondary) current.tokens.push({ value: ` - ${secondary}`, type: 'secondary' })
 
     predictions.push(current)
