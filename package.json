@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.63",
+  "version": "0.0.64",
   "type": "module",
   "exports": {
     ".": {
@@ -23,17 +23,17 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.57.7",
-    "@plugjs/eslint": "^0.6.95",
-    "@plugjs/eslint-plugin": "^0.5.24",
-    "@plugjs/plug": "^0.6.95",
+    "@plugjs/eslint": "^0.6.97",
+    "@plugjs/eslint-plugin": "^0.6.0",
+    "@plugjs/plug": "^0.6.97",
     "@quasar/vite-plugin": "^1.10.0",
     "@types/google.maps": "^3.58.1",
     "@types/node": "<21",
-    "@vitejs/plugin-vue": "^6.0.4",
+    "@vitejs/plugin-vue": "^6.0.5",
     "eslint-plugin-vue": "^10.8.0",
-    "sass-embedded": "^1.97.3",
+    "sass-embedded": "^1.98.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^8.0.0",
     "vue": "^3.5.30",
     "vue-tsc": "^3.2.5"
   },
