@@ -378,7 +378,7 @@ const _onClear = computed(() => {
 })
 
 /** A reference to the input field */
-const nativeEl = ref(_qinput.value?.nativeEl as HTMLInputElement)
+const nativeEl = computed(() => _qinput.value?.nativeEl as HTMLInputElement)
 
 /* ===== INTERNAL STATE ===================================================== */
 
