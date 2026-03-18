@@ -377,6 +377,9 @@ const _onClear = computed(() => {
   }
 })
 
+/** A reference to the input field */
+const nativeEl = computed(() => _qinput.value?.nativeEl as HTMLInputElement)
+
 /* ===== INTERNAL STATE ===================================================== */
 
 /* Exposed stuff */
@@ -390,7 +393,7 @@ defineExpose({
   /** If the field has validation errors or not */
   hasError: computed(() => _qinput.value?.hasError || false),
   /** The native element of the input */
-  nativeEl: computed(() => _qinput.value?.nativeEl as HTMLInputElement),
+  nativeEl: nativeEl,
   /** A flag indicating whether this field is _editable_ or not */
   isEditable: _editable,
   /** A flag indicating whether this field is _disabled_ or not */
@@ -435,7 +438,12 @@ formReadyState(() => {
 const _onBeforeinput = (event: InputEvent) => void _emit('beforeinput', event)
 const _onBlur = (event: FocusEvent) => void _emit('blur', event)
 const _onFocus = (event: FocusEvent) => void _emit('focus', event)
-const _onInput = (event: Event) => void _emit('input', event as InputEvent) // follow MDN spec
+function _onInput(event: Event): void {
+  // We check if the `q-input` was manually cleared,
+  // and if so we update the model right away, ignoring the debounce delay
+  if ((nativeEl.value.value === '') && (_value.value !== '')) _update('')
+  _emit('input', event as InputEvent) // follow MDN spec
+}
 const _onKeydown = (event: KeyboardEvent) => void _emit('keydown', event)
 const _onKeyup = (event: KeyboardEvent) => void (_emit('keyup', event))
 
@@ -503,7 +511,7 @@ onMounted(() => {
   if (! _helper.value) throw new Error('No ZFormHelper ref')
 
   // We _watch_ but this should happen only once...
-  watch(() => _qinput.value?.nativeEl, (newElement, oldElement) => {
+  watch(() => nativeEl.value, (newElement, oldElement) => {
     // Remove old event listeners and setup new ones (in case the element changes)
     _removeEventListeners(oldElement as HTMLInputElement)
     _addEventListeners(newElement as HTMLInputElement)
@@ -513,7 +521,7 @@ onMounted(() => {
 })
 
 /* Before unmounting be nice and remove all our event listeners */
-onBeforeUnmount(() => _removeEventListeners(_qinput.value?.nativeEl as HTMLInputElement))
+onBeforeUnmount(() => _removeEventListeners(nativeEl.value))
 </script>
 
 <style lang="postcss" scoped>
