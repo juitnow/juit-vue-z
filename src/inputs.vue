@@ -33,6 +33,7 @@
             <q-checkbox v-model="clearable" label="Clearable" />
             <q-checkbox v-model="clickable" label="Clickable" />
             <q-checkbox v-model="readonly" label="Readonly" />
+            <q-checkbox v-model="debounce" label="Debounce" />
           </div>
 
           <div class="col-6 col-sm-4 col-md-3 column">
@@ -606,6 +607,26 @@
               </div>
             </div>
           </div>
+
+          <h6>Search</h6>
+          <div class="bg-shade borders rounded-borders q-pa-sm ">
+            <div class="row q-col-gutter-md items-center">
+              <z-control-search
+                v-model="search"
+                class="col-6"
+
+                :label="label ? 'Label' : ''"
+                :placeholder="placeholder ? 'Placeholder' : ''"
+                :hint="hint ? 'Hint' : undefined"
+                :debounce="debounce ? 750 : 5000"
+
+                :clearable="clearable"
+              />
+              <div class="col-6">
+                {{ JSON.stringify(search) }}
+              </div>
+            </div>
+          </div>
         </z-form>
       </q-scroll-area>
     </template>
@@ -654,6 +675,7 @@ const required = ref(false)
 const clearable = ref(false)
 const clickable = ref(false)
 const readonly = ref(false)
+const debounce = ref(true)
 
 const suffix = ref(false)
 const minLength = ref(false)
@@ -674,6 +696,7 @@ const pickerShowing = ref(false)
 const address = ref<ZAddressData>()
 const country = ref<string>()
 const telephone = ref<string>()
+const search = ref('')
 
 function warn(message: string): void {
   notify({ message, color: 'grey', group: false })

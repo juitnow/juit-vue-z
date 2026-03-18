@@ -435,7 +435,13 @@ formReadyState(() => {
 const _onBeforeinput = (event: InputEvent) => void _emit('beforeinput', event)
 const _onBlur = (event: FocusEvent) => void _emit('blur', event)
 const _onFocus = (event: FocusEvent) => void _emit('focus', event)
-const _onInput = (event: Event) => void _emit('input', event as InputEvent) // follow MDN spec
+function _onInput(event: Event): void {
+  // We check if the `q-input` was manually cleared,
+  // and if so we update the model right away, ignoring the debounce delay
+  const element = event.target as HTMLInputElement | null
+  if ((element?.value === '') && (_value.value !== '')) _update('')
+  _emit('input', event as InputEvent) // follow MDN spec
+}
 const _onKeydown = (event: KeyboardEvent) => void _emit('keydown', event)
 const _onKeyup = (event: KeyboardEvent) => void (_emit('keyup', event))
 
