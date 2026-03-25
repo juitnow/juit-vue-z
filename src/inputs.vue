@@ -266,12 +266,13 @@
 
                 :label="label ? 'Label' : ''"
                 :placeholder="placeholder ? 'Placeholder' : ''"
-                :hint="hint ? 'Hint' : undefined"
+                :hint="hint ? '4 maximum fraction digits' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
                 :suffix="suffix ? ' g/L' : undefined"
                 :minimum="minLength ? 5 : undefined"
                 :maximum="maxLength ? 20 : undefined"
+                :maximum-fraction-digits="4"
 
                 :readonly="readonly"
                 :clearable="clearable"
@@ -291,12 +292,13 @@
 
                 :label="label ? 'Label' : ''"
                 :placeholder="placeholder ? 'Placeholder' : ''"
-                :hint="hint ? 'Hint' : undefined"
+                :hint="hint ? '4 maximum fraction digits' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
                 :suffix="suffix ? ' km/H' : undefined"
                 :minimum="minLength ? 5 : undefined"
                 :maximum="maxLength ? 20 : undefined"
+                :maximum-fraction-digits="4"
 
                 :required="required"
                 :readonly="readonly"

@@ -66,6 +66,12 @@ const _props = defineProps({
     required: false,
     default: 'decimal',
   },
+  /** The maximum number of fraction digits to allow */
+  maximumFractionDigits: {
+    type: Number as PropType<number | undefined>,
+    required: false,
+    default: 20,
+  },
 
   /* ===== FRILLS =========================================================== */
 
@@ -242,7 +248,7 @@ function _formatNumber(number: number | null): string {
 
   // Use thousans separators when only when *NOT* editing
   return number.toLocaleString(translator.locale, {
-    maximumFractionDigits: 20,
+    maximumFractionDigits: _props.maximumFractionDigits,
     useGrouping: ! _ztext.value?.hasFocus,
   })
 }

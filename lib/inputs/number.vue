@@ -4,6 +4,7 @@
     v-bind="{ ...$attrs, required: false, validateNull: true }"
 
     :model-value="_znumber?.isEditable ? (_number || null) : _number"
+    :maximum-fraction-digits="maximumFractionDigits"
     :mode="mode"
 
     :label="label"
@@ -57,6 +58,12 @@ defineProps({
     type: String as PropType<'decimal' | 'numeric'>,
     required: false,
     default: 'decimal',
+  },
+  /** The maximum number of fraction digits to allow */
+  maximumFractionDigits: {
+    type: Number as PropType<number | undefined>,
+    required: false,
+    default: 20,
   },
 
   /* ===== FRILLS =========================================================== */
