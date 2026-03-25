@@ -266,8 +266,8 @@ function _parseNumber(string: string): number | null {
   return string === '' ? null : string === '-' ? null : (parseFloat(string) || 0)
 }
 
-/* When focus or language change, reformat the number */
-watch([ () => _ztext.value?.hasFocus, () => translator.locale ], () => {
+/* When focus or language or fraction digits change, reformat the number */
+watch([ () => _ztext.value?.hasFocus, () => translator.locale, () => _props.maximumFractionDigits ], () => {
   _string.value = _formatNumber(_number.value)
 })
 

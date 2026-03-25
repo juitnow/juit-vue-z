@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.68",
+  "version": "0.0.69",
   "type": "module",
   "exports": {
     ".": {
