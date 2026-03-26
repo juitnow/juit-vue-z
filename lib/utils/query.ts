@@ -282,13 +282,13 @@ type TableStateDefs = ReturnType<typeof tableStateDefs>
 export function createBoundTableState<T extends {
   [ k: string ]: ZQueryReactiveDef & { isFilter?: boolean } // add "isFilter"
 } = {}>(options: {
-  length: number,
+  length?: number,
   sort?: string,
   desc?: boolean,
   extra?: T,
   useRoute?: boolean,
-}): Reactive<InferDefs<T & TableStateDefs>> {
-  const { length, sort, desc = false, extra = {}, useRoute = false } = options
+} = {}): Reactive<InferDefs<T & TableStateDefs>> {
+  const { length = Number.MAX_SAFE_INTEGER, sort, desc = false, extra = {}, useRoute = false } = options
 
   // definitions from basic above and include any extra properties
   const defs = { ...tableStateDefs(), ...extra }
