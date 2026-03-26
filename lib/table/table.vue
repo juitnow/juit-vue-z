@@ -205,6 +205,7 @@ import { RouterLink } from 'vue-router'
 
 import { icons } from '../assets/icons'
 import ZInputGroup from '../forms/input-group.vue'
+import { createBoundTableState } from '../utils/query'
 import { tableEventProps } from '../utils/tables'
 import TableFooterColumns from './layout/table-footer-columns.vue'
 import TableFooterFullScreen from './layout/table-footer-fullscreen.vue'
@@ -343,7 +344,8 @@ const props = defineProps({
 /** Current state of the table */
 const state = defineModel({
   type: Object as PropType<ZTableState>,
-  required: true,
+  required: false,
+  default: () => createBoundTableState(),
 })
 
 // ===== DATA SLOTS & EMITS ====================================================
