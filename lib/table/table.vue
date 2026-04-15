@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/valid-v-for -->
 <template>
   <!-- default slot (controls) goes *outside* when not secondary (full screen or enclosed) -->
   <div
@@ -79,24 +80,37 @@
           </q-td>
 
           <!-- table cell -->
-          <q-td v-for="col in scope.cols" :key="col.name" :props="scope">
-            <!-- optionally wrap the contents of the cell in a router link -->
-            <table-link :to="link">
-              <!-- if we have a *data* slot call it-->
-              <div v-if="slots[`data-${col.name}`]">
-                <slot
-                  :name="`data-${col.name}`"
-                  :index="scope.rowIndex"
-                  :row="scope.row"
-                  :value="col.value"
-                />
-              </div>
-              <!-- otherwise, just display the value -->
-              <div v-else>
-                {{ col.value }}
-              </div>
-            </table-link>
-          </q-td>
+          <template v-for="col in scope.cols" :key="col.name">
+            <slot
+              v-if="slots[`cell-${col.name}`]"
+              :name="`cell-${col.name}`"
+              :props="{ ...scope, col }"
+              :index="scope.rowIndex"
+              :row="scope.row"
+              :col="col"
+              :value="col.value"
+              :row-link="link"
+            />
+
+            <q-td v-else :props="{ ...scope, col }">
+              <!-- optionally wrap the contents of the cell in a router link -->
+              <table-link :to="link">
+                <!-- if we have a *data* slot call it-->
+                <div v-if="slots[`data-${col.name}`]">
+                  <slot
+                    :name="`data-${col.name}`"
+                    :index="scope.rowIndex"
+                    :row="scope.row"
+                    :value="col.value"
+                  />
+                </div>
+                <!-- otherwise, just display the value -->
+                <div v-else>
+                  {{ col.value }}
+                </div>
+              </table-link>
+            </q-td>
+          </template>
         </template>
       </q-tr>
     </template>
@@ -180,18 +194,18 @@
   </q-table>
 </template>
 
-<!-- ===========================================================================
-| SETUP                                                                        |
-============================================================================ -->
+<!-- +=====================================================================+
+     | SETUP                                                               |
+     +=====================================================================+ -->
 
 <script setup lang="ts">
 import { is, QCheckbox, QIcon, QSpinner, QTable, QTd, QTr, useQuasar } from 'quasar'
 import { computed, defineComponent, h, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
-
 import { icons } from '../assets/icons'
 import ZInputGroup from '../forms/input-group.vue'
+import { createBoundTableState } from '../utils/query'
 import { tableEventProps } from '../utils/tables'
 import TableFooterColumns from './layout/table-footer-columns.vue'
 import TableFooterFullScreen from './layout/table-footer-fullscreen.vue'
@@ -330,13 +344,28 @@ const props = defineProps({
 /** Current state of the table */
 const state = defineModel({
   type: Object as PropType<ZTableState>,
-  required: true,
+  required: false,
+  default: () => createBoundTableState(),
 })
 
 // ===== DATA SLOTS & EMITS ====================================================
 
 const slots = defineSlots<{
-  [ key: `data-${string}` ]: (props: { index: number, row: any, value: any }) => VNode[]
+  /** Those are _normal_ data slots (that is, within a fully rendered "<q-td>")  */
+  [ key: `data-${string}` ]: (props: {
+    index: number,
+    row: any,
+    value: any
+  }) => VNode[]
+  /** Slot to completely replace the whole "<q-td>" (not even "rowLink" will work) */
+  [ key: `cell-${string}` ]: (props: {
+    index: number,
+    row: any,
+    col: any,
+    value: any,
+    rowLink: RouteLocationRaw | string | undefined,
+    props: any,
+  }) => VNode[]
   'bottom-row'?: () => VNode[]
   'default'?: () => VNode[]
 }>()

@@ -33,6 +33,7 @@
         :hide-bottom-space="! formProps.bottomSlots"
         :lazy-rules="formProps.lazyRules"
         :debounce="debounce"
+        :autofocus="autofocus"
         :readonly="_inactive || nonInteractive"
         :disable="_disabled"
         :rules="_rules"
@@ -266,6 +267,12 @@ const _props = defineProps({
     required: false,
     default: false,
   },
+  /** Autofocus on initial render */
+  autofocus: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 
   /* ===== VALIDATION ======================================================= */
 
@@ -364,8 +371,9 @@ function _update(value?: string | number | null): void {
   if (string !== _value.value) _value.value = string
 }
 
-/** Handle the clearability from the parent */
+/** Handle the clearability from the icon */
 const _onClear = computed(() => {
+  if (! _props.clearable) return undefined
   if (! _props.onClear) return undefined
   if (! _value.value) return undefined
 
@@ -454,10 +462,13 @@ function _onClick(event: MouseEvent): void {
 
 /** Extra event handler tracking "Escape" and clearing the content */
 function _onKeydownClear(event: KeyboardEvent): void {
+  if (! _props.clearable) return // no clearable, no action
   if (! _props.onClear) return // no clear, no action
+
   const { key, altKey, ctrlKey, metaKey, shiftKey } = event
   if (altKey || ctrlKey || metaKey || shiftKey) return
   if (key !== 'Escape') return
+
   _props.onClear()
   event.preventDefault()
 }
