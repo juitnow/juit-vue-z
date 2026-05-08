@@ -1,7 +1,7 @@
 {
   "name": "@juit/vue-z",
   "description": "Widgets Libray for Juit GmbH",
-  "version": "0.0.74",
+  "version": "0.0.75",
   "type": "module",
   "exports": {
     ".": {
@@ -18,24 +18,24 @@
     "@juit/vue-i18n": "^0.2.53",
     "@quasar/extras": "^1.18.0",
     "quasar": "^2.19.3",
-    "vue": "^3.5.33",
+    "vue": "^3.5.34",
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.58.7",
-    "@plugjs/eslint": "^0.6.105",
-    "@plugjs/eslint-plugin": "^0.6.7",
-    "@plugjs/plug": "^0.6.105",
+    "@plugjs/eslint": "^0.6.106",
+    "@plugjs/eslint-plugin": "^0.6.8",
+    "@plugjs/plug": "^0.6.106",
     "@quasar/vite-plugin": "^1.11.0",
     "@types/google.maps": "^3.64.0",
     "@types/node": "<21",
     "@vitejs/plugin-vue": "^6.0.6",
-    "eslint-plugin-vue": "^10.9.0",
+    "eslint-plugin-vue": "^10.9.1",
     "sass-embedded": "^1.99.0",
     "typescript": "<6",
     "vite": "<8",
-    "vue": "^3.5.33",
-    "vue-tsc": "^3.2.7"
+    "vue": "^3.5.34",
+    "vue-tsc": "^3.2.8"
   },
   "overrides": {
     "@quasar/vite-plugin": {
