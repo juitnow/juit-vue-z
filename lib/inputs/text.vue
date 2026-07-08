@@ -365,9 +365,14 @@ const _editable = computed(() => _state.value === 'editable')
 const _inactive = computed(() => _state.value === 'inactive')
 
 function _update(value?: string | number | null): void {
-  let string = typeof value === 'number' ? String(value) : (value || '')
-  // trim and normalize spaces unless the "raw" prop is set
-  if (! _props.raw) string = string.trim().replaceAll(/\s+/g, ' ')
+  const string = typeof value === 'number' ? String(value) : (value || '')
+  if (string !== _value.value) _value.value = string
+}
+
+/** Trim and normalize spaces unless the "raw" prop is set */
+function _trim(): void {
+  if (_props.raw) return
+  const string = _value.value.trim().replaceAll(/\s+/g, ' ')
   if (string !== _value.value) _value.value = string
 }
 
@@ -444,7 +449,11 @@ formReadyState(() => {
 
 /* Pass-through events */
 const _onBeforeinput = (event: InputEvent) => void _emit('beforeinput', event)
-const _onBlur = (event: FocusEvent) => void _emit('blur', event)
+// We only trim after the blur, to avoid interfering with the user's typing
+function _onBlur(event: FocusEvent): void {
+  _trim()
+  _emit('blur', event)
+}
 const _onFocus = (event: FocusEvent) => void _emit('focus', event)
 function _onInput(event: Event): void {
   // We check if the `q-input` was manually cleared,
