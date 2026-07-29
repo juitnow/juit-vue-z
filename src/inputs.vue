@@ -513,7 +513,7 @@
           <div class="bg-shade borders rounded-borders q-pa-sm ">
             <div class="row q-col-gutter-md items-center">
               <z-autocomplete
-                v-model="string"
+                v-model="autocomplete"
                 class="col-6"
 
                 :label="label ? 'Label' : ''"
@@ -531,7 +531,7 @@
                 @selected="warn(`Autocompleted '${$event.value}' => '${$event.label}'`)"
               />
               <div class="col-6">
-                {{ JSON.stringify(string) }}
+                {{ JSON.stringify(autocomplete) }}
               </div>
             </div>
           </div>
@@ -540,7 +540,7 @@
           <div class="bg-shade borders rounded-borders q-pa-sm ">
             <div class="row q-col-gutter-md items-center">
               <z-address
-                v-model="string"
+                v-model="addressInput"
                 class="col-6"
 
                 :label="label ? 'Label' : ''"
@@ -684,6 +684,7 @@ const minLength = ref(false)
 const maxLength = ref(false)
 
 const string = ref('')
+const autocomplete = ref('')
 const password = ref('')
 const number = ref(0)
 const nullableNumber = ref<number | null>(null)
@@ -696,6 +697,7 @@ const dateRange = ref<ZDateRangeData>()
 const picked = ref<'left' |'right' | null>(null)
 const pickerShowing = ref(false)
 const address = ref<ZAddressData>()
+const addressInput = ref('')
 const country = ref<string>()
 const telephone = ref<string>()
 const search = ref('')
