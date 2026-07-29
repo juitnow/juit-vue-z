@@ -70,8 +70,8 @@ defineProps({
 })
 
 /** Array of column **keys** that are currently visible */
-const visible = defineModel({
-  type: Array as PropType<string[]>,
+const visible = defineModel<string[]>({
+  type: Array,
   required: true,
 })
 

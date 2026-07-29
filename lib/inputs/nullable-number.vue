@@ -139,8 +139,8 @@ const _props = defineProps({
 })
 
 /** The value of the input */
-const _number = defineModel({
-  type: [ Number, null ] as PropType<number | null>,
+const _number = defineModel<number | null>({
+  type: [ Number, null ],
   required: false,
   default: null,
 })

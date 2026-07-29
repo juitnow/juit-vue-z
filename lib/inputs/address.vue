@@ -133,7 +133,7 @@ const _props = defineProps({
 
 /** The *text* value of the input */
 const _value = defineModel({
-  type: String as PropType<string >,
+  type: String,
   required: false,
   default: '',
 })

@@ -104,7 +104,7 @@ defineProps({
 })
 
 const _value = defineModel({
-  type: String as PropType<string>,
+  type: String,
   required: false,
 })
 

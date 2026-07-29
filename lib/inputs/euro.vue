@@ -143,7 +143,7 @@ const _props = defineProps({
 
 /** The value of the input */
 const _number = defineModel({
-  type: Number as PropType<number>,
+  type: Number,
   required: false,
   default: 0,
 })

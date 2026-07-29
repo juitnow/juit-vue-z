@@ -150,8 +150,8 @@ const _props = defineProps({
   ...componentFormProps,
 })
 
-const _value = defineModel({
-  type: Array as PropType<string[]>,
+const _value = defineModel<string[]>({
+  type: Array,
   required: false,
   default: () => [],
 })

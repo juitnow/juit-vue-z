@@ -125,8 +125,8 @@ const _props = defineProps({
 })
 
 /** The value of the input */
-const _value = defineModel({
-  type: Object as PropType<ZDateRangeData | undefined>,
+const _value = defineModel<ZDateRangeData | undefined>({
+  type: Object,
   required: false,
 })
 

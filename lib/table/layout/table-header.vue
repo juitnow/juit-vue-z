@@ -104,14 +104,14 @@ const props = defineProps({
 })
 
 /** Current state of the table */
-const state = defineModel({
-  type: Object as PropType<ZTableState>,
+const state = defineModel<ZTableState>({
+  type: Object,
   required: true,
 })
 
 /** The semi-opaque slot data for this header */
-const slotData = defineModel('slotData', {
-  type: Object as PropType<Parameters<QTableSlots['header']>[0]>,
+const slotData = defineModel<Parameters<QTableSlots['header']>[0]>('slotData', {
+  type: Object,
   required: true,
 })
 

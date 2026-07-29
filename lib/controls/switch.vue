@@ -44,8 +44,8 @@ defineProps({
   ...componentFormProps,
 })
 
-const value = defineModel({
-  type: String as PropType<string | undefined>,
+const value = defineModel<string | undefined>({
+  type: String,
   required: false,
   default: undefined,
 })

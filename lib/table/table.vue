@@ -342,8 +342,8 @@ const props = defineProps({
 })
 
 /** Current state of the table */
-const state = defineModel({
-  type: Object as PropType<ZTableState>,
+const state = defineModel<ZTableState>({
+  type: Object,
   required: false,
   default: () => createBoundTableState(),
 })
@@ -411,8 +411,8 @@ watch(page, (page) => {
  * If this property is specified *and* is an array, this table will be
  * selectable, and the selection will include (in order) all selected rows
  */
-const selection = defineModel('selection', {
-  type: Array as PropType<any[] | undefined>,
+const selection = defineModel<any[] | undefined>('selection', {
+  type: Array,
   required: false,
   default: undefined,
 })

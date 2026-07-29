@@ -267,8 +267,8 @@ const _props = defineProps({
 })
 
 /** The value of the object that will be edited, to check for modifications */
-const _value = defineModel({
-  type: Object as PropType<ZBaseObject>,
+const _value = defineModel<ZBaseObject>({
+  type: Object,
   required: true,
 })
 

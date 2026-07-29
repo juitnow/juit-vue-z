@@ -201,7 +201,7 @@ const _slots = defineSlots<{
 
 /** The *text* value of the input */
 const _input = defineModel({
-  type: String as PropType<string >,
+  type: String,
   required: false,
   default: '',
 })
