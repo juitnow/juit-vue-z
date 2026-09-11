@@ -73,7 +73,7 @@
         @contextmenu="onRowContextmenu?.($event, scope.row, scope.rowIndex)"
       >
         <!-- create link once per row, using v-for to contextualize variable -->
-        <template v-for="link in [ rowLink?.(scope.row) ]" :key="link">
+        <template v-for="(link, index) in [ rowLink?.(scope.row) ]" :key="index">
           <!-- selection checkbox, only if selecting -->
           <q-td v-if="scope.selected !== undefined" class="text-center shrink">
             <q-checkbox v-model="scope.selected" dense :size="dense ? 'xs' : undefined" />
