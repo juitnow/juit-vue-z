@@ -25,6 +25,7 @@
             <q-checkbox v-model="editable" label="Editable" />
             <q-checkbox v-model="lazyRules" label="Lazy Rules" />
             <q-checkbox v-model="greedy" label="Greedy" />
+            <q-checkbox v-model="rightAligned" label="Right aligned (numbers only)" />
           </div>
 
           <div class="col-6 col-sm-4 col-md-3 column">
@@ -268,6 +269,7 @@
                 :placeholder="placeholder ? 'Placeholder' : ''"
                 :hint="hint ? '4 maximum fraction digits' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
+                :align="rightAligned ? 'right' : 'left'"
 
                 :suffix="suffix ? ' g/L' : undefined"
                 :minimum="minLength ? 5 : undefined"
@@ -294,6 +296,7 @@
                 :placeholder="placeholder ? 'Placeholder' : ''"
                 :hint="hint ? '4 maximum fraction digits' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
+                :align="rightAligned ? 'right' : 'left'"
 
                 :suffix="suffix ? ' km/H' : undefined"
                 :minimum="minLength ? 5 : undefined"
@@ -321,6 +324,7 @@
                 :placeholder="placeholder ? 'Placeholder' : ''"
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
+                :align="rightAligned ? 'right' : 'left'"
 
                 :suffix="suffix ? ' EUR' : undefined"
                 :minimum="minLength ? 100 : undefined"
@@ -672,6 +676,7 @@ const editable = ref(true)
 const disabled = ref(false)
 const lazyRules = ref(false)
 const greedy = ref(false)
+const rightAligned = ref(false)
 
 const required = ref(false)
 const clearable = ref(false)

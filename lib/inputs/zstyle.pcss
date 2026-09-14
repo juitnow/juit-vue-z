@@ -57,6 +57,20 @@
     .q-placeholder::placeholder {
       opacity: 0.5;
     }
+
+  }
+
+  /* Numeric inputs can right-align the value (labels and hints stay left-aligned) */
+  &.z-align-right .q-field__native,
+  &.z-align-right .q-field__input { text-align: right; }
+
+  &.z-align-right .q-field__native.row {
+    justify-content: flex-end;
+  }
+
+  &.z-align-right .q-field__native:not(.z-suffix),
+  &.z-align-right .q-field__input {
+    padding-right: var(--z-suffix-space, 0);
   }
 
   /* ===== INPUT FIELD ICONS ================================================ */

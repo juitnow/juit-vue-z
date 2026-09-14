@@ -75,6 +75,15 @@ export const componentFormProps = {
   },
 } as const
 
+/** Horizontal alignment (for numeric input contents) */
+export const inputAlignProps = {
+  align: {
+    type: String as PropType<'left' | 'right'>,
+    required: false,
+    default: 'left',
+  },
+} as const
+
 /** For `ZForm`, provide the current form properties to children components */
 export function provideFormProps(props: Partial<ZFormProps>): void {
   provide(_editableSymbol, () => props.editable != null ? props.editable : defaults.editable)

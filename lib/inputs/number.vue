@@ -6,6 +6,7 @@
     :model-value="_znumber?.isEditable ? (_number || null) : _number"
     :maximum-fraction-digits="maximumFractionDigits"
     :mode="mode"
+    :align="align"
 
     :label="label"
     :placeholder="`0${suffix}`"
@@ -35,7 +36,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
 
-import { componentFormProps } from '../utils/form'
+import { componentFormProps, inputAlignProps } from '../utils/form'
 import ZNullableNumber from './nullable-number.vue'
 
 import type { PropType, VNode } from 'vue'
@@ -94,6 +95,7 @@ defineProps({
     required: false,
     default: '',
   },
+  ...inputAlignProps,
 
   /* ===== VALIDATION ======================================================= */
 

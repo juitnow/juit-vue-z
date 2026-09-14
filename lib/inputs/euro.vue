@@ -1,8 +1,9 @@
 <template>
   <z-text
     ref="_ztext"
-    v-bind="{ ..._attrs, validateNull: true }"
     v-model="_string"
+    :class="`z-align-${align}`"
+    v-bind="{ ..._attrs, validateNull: true }"
     type="text"
     :mode="mode"
 
@@ -37,7 +38,7 @@
 import { useTranslator } from '@juit/vue-i18n'
 import { computed, onMounted, ref, useAttrs, watch } from 'vue'
 
-import { componentFormProps } from '../utils/form'
+import { componentFormProps, inputAlignProps } from '../utils/form'
 import ZText from './text.vue'
 
 import type { PropType, VNode } from 'vue'
@@ -101,6 +102,7 @@ const _props = defineProps({
     required: false,
     default: ' \u20ac',
   },
+  ...inputAlignProps,
 
   /* ===== VALIDATION ======================================================= */
 

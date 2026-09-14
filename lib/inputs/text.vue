@@ -1,5 +1,8 @@
 <template>
-  <div class="z-input">
+  <div
+    class="z-input"
+    :style="{ '--z-suffix-space': _suffixSpace }"
+  >
     <z-form-helper
       ref="_helper"
       v-slot="formProps"
@@ -46,7 +49,7 @@
         <!-- Suffix, right behind the label, expanding with it -->
         <div v-if="_value && suffix" class="q-field__native z-suffix">
           <span class="z-suffix-hidden">{{ _value }}</span>
-          <span class="z-suffix-visible">{{ suffix }}</span>
+          <span ref="_suffix" class="z-suffix-visible">{{ suffix }}</span>
         </div>
 
         <template #append>
@@ -117,7 +120,7 @@
 
 <script setup lang="ts">
 import { QIcon, QInput } from 'quasar'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { icons } from '../assets/icons'
@@ -178,6 +181,8 @@ const validators = useValidators()
 const _qinput = ref<QInput>()
 /** Ref to our `ZFormHelper` */
 const _helper = ref<InstanceType<typeof ZFormHelper>>()
+/** Ref to the suffix span, used to reserve exact space when right-aligned */
+const _suffix = ref<HTMLSpanElement>()
 
 /* ===== NAME, PROPS, MODEL, EMITS, ... ===================================== */
 
@@ -334,6 +339,8 @@ const _value = defineModel({
   required: false,
   default: '',
 })
+/** Exact rendered suffix width, exposed as a CSS variable */
+const _suffixSpace = ref<string | undefined>()
 
 /* Emits */
 const _emit = defineEmits<{
@@ -437,6 +444,12 @@ const _rules = computed(() => {
 
 /* When editable or validation rules change, reset validation */
 watch([ _editable, _rules ], () => _qinput.value?.resetValidation())
+
+/** We watch the suffix and value to adjust the suffix space dynamically */
+watch([ () => _props.suffix, _value ], () => nextTick(() => {
+  const width = _suffix.value?.offsetWidth || 0
+  _suffixSpace.value = width ? `${width}px` : undefined
+}), { immediate: true })
 
 /* Ready state for parent ZForm */
 formReadyState(() => {
