@@ -124,8 +124,7 @@
 <script setup lang="ts">
 import { QIcon, QInput } from 'quasar'
 import {
-  computed, defineEmits, defineExpose, defineModel, defineOptions,
-  defineProps, defineSlots, nextTick, onBeforeUnmount, onMounted, ref, watch,
+  computed, nextTick, onBeforeUnmount, onMounted, ref, watch,
 } from 'vue'
 import { RouterLink } from 'vue-router'
 
