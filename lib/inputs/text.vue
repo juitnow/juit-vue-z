@@ -1,7 +1,10 @@
 <template>
   <div
     class="z-input"
-    :style="{ '--z-suffix-space': _suffixSpace }"
+    :style="{
+      '--z-prefix-space': _prefixSpace,
+      '--z-suffix-space': _suffixSpace
+    }"
   >
     <z-form-helper
       ref="_helper"
@@ -120,7 +123,9 @@
 
 <script setup lang="ts">
 import { QIcon, QInput } from 'quasar'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {
+  computed, nextTick, onBeforeUnmount, onMounted, ref, watch,
+} from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { icons } from '../assets/icons'
@@ -341,6 +346,8 @@ const _value = defineModel({
 })
 /** Exact rendered suffix width, exposed as a CSS variable */
 const _suffixSpace = ref<string | undefined>()
+/** Offset of the native input when Quasar renders a prefix */
+const _prefixSpace = ref<string | undefined>()
 
 /* Emits */
 const _emit = defineEmits<{
@@ -445,11 +452,17 @@ const _rules = computed(() => {
 /* When editable or validation rules change, reset validation */
 watch([ _editable, _rules ], () => _qinput.value?.resetValidation())
 
-/** We watch the suffix and value to adjust the suffix space dynamically */
-watch([ () => _props.suffix, _value ], () => nextTick(() => {
+/** Keep the overlay suffix aligned with Quasar's native prefix and suffix layout */
+function _updateAffixSpace(): void {
   const width = _suffix.value?.offsetWidth || 0
   _suffixSpace.value = width ? `${width}px` : undefined
-}), { immediate: true })
+
+  const offset = nativeEl.value?.offsetLeft || 0
+  _prefixSpace.value = offset ? `${offset}px` : undefined
+}
+
+/** We watch the affixes and value to adjust their space dynamically */
+watch([ () => _props.prefix, () => _props.suffix, _value ], () => nextTick(_updateAffixSpace), { immediate: true })
 
 /* Ready state for parent ZForm */
 formReadyState(() => {
@@ -550,6 +563,7 @@ onMounted(() => {
     _addEventListeners(newElement as HTMLInputElement)
     // If we have a new element, set the input mode
     if (newElement) newElement.inputMode = _props.mode
+    nextTick(_updateAffixSpace)
   }, { immediate: true })
 })
 
@@ -565,7 +579,7 @@ onBeforeUnmount(() => _removeEventListeners(nativeEl.value))
   top: 0;
   right: 0;
   bottom: 0;
-  left: 0;
+  left: var(--z-prefix-space, 0);
   overflow: hidden;
   font-weight: 500;
 

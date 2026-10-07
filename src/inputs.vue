@@ -39,6 +39,7 @@
 
           <div class="col-6 col-sm-4 col-md-3 column">
             <h6>Extra</h6>
+            <q-checkbox v-model="prefix" label="Prefix" />
             <q-checkbox v-model="suffix" label="Suffix" />
             <q-checkbox v-model="minLength" label="Min / Min Length" />
             <q-checkbox v-model="maxLength" label="Max / Max Length" />
@@ -193,7 +194,8 @@
                 :icon="icon ? 'sym_r_search' : undefined"
 
                 :max-length="maxLength ? 30 : undefined"
-                :suffix="suffix ? 'suffix' : undefined"
+                :prefix="prefix ? 'prefix' : undefined"
+                :suffix="suffix ? ' suffix' : undefined"
 
                 :required="required"
                 :readonly="readonly"
@@ -222,7 +224,8 @@
 
                 :min-length="minLength ? 5 : undefined"
                 :max-length="maxLength ? 20 : undefined"
-                :suffix="suffix ? 'suffix' : undefined"
+                :prefix="prefix ? 'prefix' : undefined"
+                :suffix="suffix ? ' suffix' : undefined"
 
                 :required="required"
                 :readonly="readonly"
@@ -246,6 +249,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :prefix="prefix ? 'prefix' : undefined"
                 :min-length="minLength ? 5 : undefined"
 
                 :required="required"
@@ -271,6 +275,7 @@
                 :icon="icon ? 'sym_r_search' : undefined"
                 :align="rightAligned ? 'right' : 'left'"
 
+                :prefix="prefix ? '+' : undefined"
                 :suffix="suffix ? ' g/L' : undefined"
                 :minimum="minLength ? 5 : undefined"
                 :maximum="maxLength ? 20 : undefined"
@@ -298,6 +303,7 @@
                 :icon="icon ? 'sym_r_search' : undefined"
                 :align="rightAligned ? 'right' : 'left'"
 
+                :prefix="prefix ? '+' : undefined"
                 :suffix="suffix ? ' km/H' : undefined"
                 :minimum="minLength ? 5 : undefined"
                 :maximum="maxLength ? 20 : undefined"
@@ -326,6 +332,7 @@
                 :icon="icon ? 'sym_r_search' : undefined"
                 :align="rightAligned ? 'right' : 'left'"
 
+                :prefix="prefix ? '+' : undefined"
                 :suffix="suffix ? ' EUR' : undefined"
                 :minimum="minLength ? 100 : undefined"
                 :maximum="maxLength ? 25000 : undefined"
@@ -352,6 +359,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :prefix="prefix ? 'EAN' : undefined"
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable"
@@ -397,6 +405,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :prefix="prefix ? 'prefix' : undefined"
                 :options="{
                   foo: 'This is Foo',
                   bar: 'And this is Bar',
@@ -425,6 +434,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :prefix="prefix ? 'on' : undefined"
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable ? required ? 'today' : true : false"
@@ -447,6 +457,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :icon="icon ? 'sym_r_search' : undefined"
 
+                :prefix="prefix ? 'from' : undefined"
                 :required="required"
                 :readonly="readonly"
                 :clearable="clearable ? required ? 'today' : true : false"
@@ -472,6 +483,7 @@
 
                 icon="sym_r_search"
                 :link="clickable ? { name: 'Home' } : undefined"
+                :prefix="prefix ? 'pick' : undefined"
 
                 :required="required"
                 :readonly="readonly"
@@ -626,6 +638,7 @@
                 :hint="hint ? 'Hint' : undefined"
                 :debounce="debounce ? 750 : 5000"
 
+                :prefix="prefix ? 'find' : undefined"
                 :clearable="clearable"
               />
               <div class="col-6">
@@ -685,6 +698,7 @@ const readonly = ref(false)
 const debounce = ref(true)
 
 const suffix = ref(false)
+const prefix = ref(false)
 const minLength = ref(false)
 const maxLength = ref(false)
 
