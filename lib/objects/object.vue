@@ -142,18 +142,21 @@
     >
       <q-card-section>
         <z-label
+          v-if="_value.uuid"
           minimal
           icon="sym_r_tag"
           :label="$t(translations['object.uuid'])"
           :value="_value.uuid.toUpperCase()"
         />
         <z-label
+          v-if="_value.created"
           minimal
           icon="sym_r_event_available"
           :label="$t(translations['object.created'])"
           :value="$d(_value.created, 'long')"
         />
         <z-label
+          v-if="_value.modified"
           minimal
           icon="sym_r_event_note"
           :label="$t(translations['object.modified'])"
@@ -165,6 +168,20 @@
           icon="sym_r_event_busy"
           :label="$t(translations['object.deleted'])"
           :value="$d(_value.deleted, 'long')"
+        />
+        <z-label
+          v-if="createdBy"
+          minimal
+          icon="sym_r_person"
+          :label="$t(translations['object.created_by'])"
+          :value="createdBy"
+        />
+        <z-label
+          v-if="modifiedBy"
+          minimal
+          icon="sym_r_person"
+          :label="$t(translations['object.modified_by'])"
+          :value="modifiedBy"
         />
       </q-card-section>
     </z-dialog>
@@ -236,6 +253,18 @@ const _props = defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  /** Created by (passed as a prop, because we want the name, not the UUID) */
+  createdBy: {
+    type: String as PropType<string | undefined>,
+    required: false,
+    default: undefined,
+  },
+  /** Modified by (passed as a prop, because we want the name, not the UUID) */
+  modifiedBy: {
+    type: String as PropType<string | undefined>,
+    required: false,
+    default: undefined,
   },
 
   /* ===== CUSTOMIZATIONS =================================================== */
