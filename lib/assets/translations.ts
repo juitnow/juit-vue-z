@@ -15,6 +15,8 @@ export const translations = {
 
   'object.uuid': { en: 'UUID', de: 'UUID' },
   'object.created': { en: 'Created on', de: 'Erstellt am' },
-  'object.modified': { en: 'Modified on', de: 'Geändert am' },
+  'object.created_by': { en: 'Created by', de: 'Erstellt von' },
+  'object.modified': { en: 'Modified on', de: 'Bearbeitet am' },
+  'object.modified_by': { en: 'Modified by', de: 'Bearbeitet von' },
   'object.deleted': { en: 'Deleted on', de: 'Gelöscht am' },
 } as const satisfies Translations
